@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CatCafe {
+  id            Int             @id @default(autoincrement())
+  name          String
+  url           String
+  CatCafeDetail CatCafeDetail[]
+}
+
+model CatCafeDetail {
+  id              Int             @id @default(autoincrement())
+  catCafeId       Int
+  name            String
+  prefectureId    PrefectureEnum
+  address         String
+  open            String
+  close           String
+  lastEntry       String?
+  url             String
+  regularHolidays DayOfWeekEnum[]
+  CatCafe         CatCafe         @relation(fields: [catCafeId], references: [id])
+  Cat             Cat[]
+  Prefecture      Prefecture      @relation(fields: [prefectureId], references: [id])
+}
+
+model Cat {
+  id              Int           @id @default(autoincrement())
+  catCafeDetailId Int
+  name            String
+  sex             SexEnum
+  birthDate       DateTime
+  catBreedId      CatBreedEnum
+  CatCafeDetail   CatCafeDetail @relation(fields: [catCafeDetailId], references: [id])
+  CatImage        CatImage[]
+  CatBreed        CatBreed      @relation(fields: [catBreedId], references: [id])
+}
+
+model CatImage {
+  id    Int    @id @default(autoincrement())
+  catId Int
+  image String
+  Cat   Cat    @relation(fields: [catId], references: [id])
+}
+
+model CatBreed {
+  id   CatBreedEnum @id
+  name String
+  Cat  Cat[]
+}
+
+model Prefecture {
+  id            PrefectureEnum  @id
+  name          String
+  nameKana      String
+  CatCafeDetail CatCafeDetail[]
+}
+
+enum DayOfWeekEnum {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SUTURDAY
+  SUNDAY
+}
+
+enum PrefectureEnum {
+  HOKKAIDO
+  AOMORI
+  IWATE
+  MIYAGI
+  AKITA
+  YAMAGATA
+  FUKUSHIMA
+  IBARAKI
+  TOCHIGI
+  GUNMA
+  SAITAMA
+  CHIBA
+  TOKYO
+  KANAGAWA
+  NIIGATA
+  TOYAMA
+  ISHIKAWA
+  FUKUI
+  YAMANASHI
+  NAGANO
+  GIFU
+  SHIZUOKA
+  AICHI
+  MIE
+  SHIGA
+  KYOTO
+  OSAKA
+  HYOGO
+  NARA
+  WAKAYAMA
+  TOTTORI
+  SHIMANE
+  OKAYAMA
+  HIROSHIMA
+  YAMAGUCHI
+  TOKUSHIMA
+  KAGAWA
+  EHIME
+  KOCHI
+  FUKUOKA
+  SAGA
+  NAGASAKI
+  KUMAMOTO
+  OITA
+  MIYAZAKI
+  KAGOSHIMA
+  OKINAWA
+}
+
+enum CatBreedEnum {
+  MINUET
+  MUNCHKIN
+  PERSIAN
+  OTHER
+}
+
+enum SexEnum {
+  MALE
+  FEMALE
+}
