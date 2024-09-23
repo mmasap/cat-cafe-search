@@ -42,6 +42,7 @@ model Cat {
   name            String
   sex             SexEnum
   birthDate       DateTime
+  image           String
   catBreedId      CatBreedEnum
   CatCafeDetail   CatCafeDetail @relation(fields: [catCafeDetailId], references: [id])
   CatImage        CatImage[]

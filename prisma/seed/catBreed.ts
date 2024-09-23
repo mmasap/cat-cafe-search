@@ -14,6 +14,10 @@ export const createCatBreeds = async () => {
         name: 'ペルシャ',
       },
       {
+        id: CatBreedEnum.MUNCHKIN,
+        name: 'マンチカン',
+      },
+      {
         id: CatBreedEnum.OTHER,
         name: 'その他',
       },
