@@ -4,7 +4,7 @@ import { prefectureData } from '@/data/prefecture'
 import db from '@/lib/db'
 import { CatCard } from './_components/CatCard'
 import { CatFilter } from './_components/CatFilter'
-import { CatBreedEnum } from '@prisma/client'
+import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { z } from 'zod'
 
 const catFilterSchema = z.object({
@@ -13,8 +13,9 @@ const catFilterSchema = z.object({
       if (typeof val === 'string') return val.toUpperCase().split(',')
       if (Array.isArray(val)) return val.map((val) => String(val).toUpperCase())
     },
-    z.array(z.nativeEnum(CatBreedEnum)),
+    z.array(z.nativeEnum(CatBreedEnum)).optional(),
   ),
+  catSex: z.nativeEnum(SexEnum).optional(),
 })
 
 export default async function Page({
@@ -22,13 +23,16 @@ export default async function Page({
   searchParams,
 }: {
   params: { prefCode: string }
-  searchParams: { catBreeds: string | string[] | undefined }
+  searchParams: { catBreeds: string | string[] | undefined; catSex: string | undefined }
 }) {
   const prefecture = prefectureData.find((pref) => pref.code === +params.prefCode)
 
   if (!prefecture) redirect('/cats')
 
-  const catFilter = catFilterSchema.safeParse({ catBreeds: searchParams.catBreeds })
+  const catFilter = catFilterSchema.safeParse({
+    catBreeds: searchParams.catBreeds,
+    catSex: searchParams.catSex,
+  })
 
   const cats = await db.cat.findMany({
     where: {
@@ -38,6 +42,7 @@ export default async function Page({
       catBreedId: {
         in: catFilter.data?.catBreeds,
       },
+      sex: catFilter.data?.catSex,
     },
     include: { CatBreed: true },
   })

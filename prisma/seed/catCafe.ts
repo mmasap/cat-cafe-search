@@ -31,6 +31,8 @@ export const createCatCafes = async () => {
         catBreedId: CatBreedEnum.MINUET,
         birthDate: new Date('2018-01-30'),
         image: 'https://catmocha.jp/images/cat/ikebukuro/47/DSC_8474_00001.jpg',
+        instagram: 'https://www.instagram.com/explore/tags/mocha%E6%94%BF%E5%AE%97/',
+        youtube: 'https://www.youtube.com/watch?v=Ntgro328FC0',
       },
       {
         catCafeDetailId: catCafeMochaIkebukuro.id,

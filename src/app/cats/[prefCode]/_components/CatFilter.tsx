@@ -8,6 +8,14 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type CatFilterProps = {
   catBreeds: CatBreed[]
@@ -16,6 +24,7 @@ type CatFilterProps = {
 
 const FormSchema = z.object({
   catBreeds: z.array(z.string()),
+  catSex: z.enum(['none', 'male', 'female']).optional(),
 })
 
 export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
@@ -27,6 +36,7 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       catBreeds: defaultValues || [],
+      catSex: 'none',
     },
   })
 
@@ -38,6 +48,12 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
       } else {
         params.delete('catBreeds')
       }
+      if (value.catSex && value.catSex !== 'none') {
+        params.set('catSex', value.catSex)
+      } else {
+        params.delete('catSex')
+      }
+      params.sort()
       router.push(`${pathname}?${params.toString()}`, { scroll: false })
     })
     return () => subscription.unsubscribe()
@@ -51,9 +67,8 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
           name="catBreeds"
           render={() => (
             <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">猫種</FormLabel>
-              </div>
+              <FormLabel className="text-base">猫種</FormLabel>
+
               {catBreeds.map((item) => (
                 <FormField
                   key={item.id}
@@ -81,6 +96,28 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
                   }}
                 />
               ))}
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="catSex"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">性別</FormLabel>
+
+              <Select defaultValue={field.value} onValueChange={field.onChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="none">未指定</SelectItem>
+                    <SelectItem value="MALE">オス</SelectItem>
+                    <SelectItem value="FEMALE">メス</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
