@@ -8,11 +8,11 @@ export default function Page() {
   const router = useRouter()
 
   function handleMapClick(prefCode: number) {
-    router.push(`/cats/${prefCode}`)
+    router.push(`/cafe/${prefCode}`)
   }
 
   return (
-    <ContentLayout title="猫検索">
+    <ContentLayout title="猫カフェ検索">
       <div className="w-full max-w-lg mx-auto">
         <MapJapan onClick={handleMapClick} />
       </div>

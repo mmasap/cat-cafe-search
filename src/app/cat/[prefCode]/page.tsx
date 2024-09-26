@@ -27,7 +27,7 @@ export default async function Page({
 }) {
   const prefecture = prefectureData.find((pref) => pref.code === +params.prefCode)
 
-  if (!prefecture) redirect('/cats')
+  if (!prefecture) redirect('/cat')
 
   const catFilter = catFilterSchema.safeParse({
     catBreeds: searchParams.catBreeds,
