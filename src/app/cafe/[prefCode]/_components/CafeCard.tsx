@@ -26,7 +26,7 @@ export const CafeCard = ({ cat }: CatCardProps) => {
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
-            <p>{cat.catBreedId}</p>
+            <p>{cat.catBreed}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -52,7 +52,7 @@ const CafeDialogContent = ({ cat }: { cat: Cat }) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3">{cat.catBreedId}</div>
+          <div className="col-span-3">{cat.catBreed}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>

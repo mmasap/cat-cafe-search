@@ -24,7 +24,7 @@ model CatCafeDetail {
   id              Int             @id @default(autoincrement())
   catCafeId       Int
   name            String
-  prefectureId    PrefectureEnum
+  prefecture      PrefectureEnum
   address         String
   open            String
   close           String
@@ -33,7 +33,6 @@ model CatCafeDetail {
   regularHolidays DayOfWeekEnum[]
   CatCafe         CatCafe         @relation(fields: [catCafeId], references: [id])
   Cat             Cat[]
-  Prefecture      Prefecture      @relation(fields: [prefectureId], references: [id])
 }
 
 model Cat {
@@ -45,10 +44,9 @@ model Cat {
   image           String
   youtube         String?
   instagram       String?
-  catBreedId      CatBreedEnum
+  catBreed        CatBreedEnum
   CatCafeDetail   CatCafeDetail @relation(fields: [catCafeDetailId], references: [id])
   CatImage        CatImage[]
-  CatBreed        CatBreed      @relation(fields: [catBreedId], references: [id])
 }
 
 model CatImage {
@@ -56,19 +54,6 @@ model CatImage {
   catId Int
   image String
   Cat   Cat    @relation(fields: [catId], references: [id])
-}
-
-model CatBreed {
-  id   CatBreedEnum @id
-  name String
-  Cat  Cat[]
-}
-
-model Prefecture {
-  id            PrefectureEnum  @id
-  name          String
-  nameKana      String
-  CatCafeDetail CatCafeDetail[]
 }
 
 enum DayOfWeekEnum {

@@ -3,12 +3,14 @@
 import { ContentLayout } from '@/components/layout/content-layout'
 import MapJapan from '@/components/map/map-japan'
 import { useRouter } from 'next/navigation'
+import { prefectureData } from '@/data/prefecture'
 
 export default function Page() {
   const router = useRouter()
 
   function handleMapClick(prefCode: number) {
-    router.push(`/cat/${prefCode}`)
+    const prefecture = prefectureData.find((pref) => pref.code === prefCode)
+    router.push(`/cat/${prefecture?.enum.toLowerCase()}`)
   }
 
   return (

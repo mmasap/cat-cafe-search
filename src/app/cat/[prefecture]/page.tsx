@@ -15,45 +15,38 @@ const catFilterSchema = z.object({
     },
     z.array(z.nativeEnum(CatBreedEnum)).optional(),
   ),
-  catSex: z.nativeEnum(SexEnum).optional(),
+  catSex: z.preprocess((val) => val && String(val).toUpperCase(), z.nativeEnum(SexEnum).optional()),
 })
 
 export default async function Page({
   params,
   searchParams,
 }: {
-  params: { prefCode: string }
+  params: { prefecture: string }
   searchParams: { catBreeds: string | string[] | undefined; catSex: string | undefined }
 }) {
-  const prefecture = prefectureData.find((pref) => pref.code === +params.prefCode)
-
+  const prefecture = prefectureData.find((pref) => pref.enum === params.prefecture.toUpperCase())
   if (!prefecture) redirect('/cat')
 
-  const catFilter = catFilterSchema.safeParse({
-    catBreeds: searchParams.catBreeds,
-    catSex: searchParams.catSex,
-  })
+  const catFilter = catFilterSchema.safeParse(searchParams)
 
   const cats = await db.cat.findMany({
     where: {
       CatCafeDetail: {
-        prefectureId: prefecture.id,
+        prefecture: prefecture.enum,
       },
-      catBreedId: {
+      catBreed: {
         in: catFilter.data?.catBreeds,
       },
       sex: catFilter.data?.catSex,
     },
-    include: { CatBreed: true },
   })
-
-  const catBreeds = await db.catBreed.findMany()
 
   return (
     <ContentLayout title={`猫検索 - ${prefecture.name}`}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-3">
-          <CatFilter catBreeds={catBreeds} defaultValues={catFilter.data?.catBreeds} />
+          <CatFilter defaultValues={catFilter.data?.catBreeds} />
         </div>
         <div className="col-span-9">
           <div className="grid grid-cols-3 gap-4">

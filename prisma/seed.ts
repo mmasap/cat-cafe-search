@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { createPrefectures } from './seed/prefecture'
 import { createCatCafes } from './seed/catCafe'
-import { createCatBreeds } from './seed/catBreed'
 
 const prisma = new PrismaClient()
 
@@ -10,10 +8,6 @@ async function main() {
   await prisma.cat.deleteMany()
   await prisma.catCafeDetail.deleteMany()
   await prisma.catCafe.deleteMany()
-  await prisma.prefecture.deleteMany()
-  await prisma.catBreed.deleteMany()
-  await createPrefectures()
-  await createCatBreeds()
   await createCatCafes()
 }
 

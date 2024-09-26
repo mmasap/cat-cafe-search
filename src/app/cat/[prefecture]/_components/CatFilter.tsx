@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CatBreed, CatBreedEnum } from '@prisma/client'
+import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { Checkbox } from '@/components/ui/checkbox'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
@@ -16,9 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { catBreeds } from '@/data/cat-breed'
 
 type CatFilterProps = {
-  catBreeds: CatBreed[]
   defaultValues?: CatBreedEnum[]
 }
 
@@ -27,7 +27,7 @@ const FormSchema = z.object({
   catSex: z.enum(['none', 'male', 'female']).optional(),
 })
 
-export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
+export const CatFilter = ({ defaultValues }: CatFilterProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -44,12 +44,12 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
     const subscription = form.watch((value) => {
       const params = new URLSearchParams(searchParams)
       if (value.catBreeds && value.catBreeds.length > 0) {
-        params.set('catBreeds', value.catBreeds.join(','))
+        params.set('catBreeds', value.catBreeds.join(',').toLowerCase())
       } else {
         params.delete('catBreeds')
       }
       if (value.catSex && value.catSex !== 'none') {
-        params.set('catSex', value.catSex)
+        params.set('catSex', value.catSex.toLowerCase())
       } else {
         params.delete('catSex')
       }
@@ -68,29 +68,30 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
           render={() => (
             <FormItem>
               <FormLabel className="text-base">猫種</FormLabel>
-
-              {catBreeds.map((item) => (
+              {catBreeds.map((breed) => (
                 <FormField
-                  key={item.id}
+                  key={breed.enum}
                   control={form.control}
                   name="catBreeds"
                   render={({ field }) => {
                     return (
                       <FormItem
-                        key={item.id}
+                        key={breed.enum}
                         className="flex flex-row items-start space-x-3 space-y-0"
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value?.includes(item.id)}
+                            checked={field.value?.includes(breed.enum)}
                             onCheckedChange={(checked) => {
                               return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(field.value?.filter((value) => value !== item.id))
+                                ? field.onChange([...field.value, breed.enum])
+                                : field.onChange(
+                                    field.value?.filter((value) => value !== breed.enum),
+                                  )
                             }}
                           />
                         </FormControl>
-                        <FormLabel className="font-normal">{item.name}</FormLabel>
+                        <FormLabel className="font-normal">{breed.name}</FormLabel>
                       </FormItem>
                     )
                   }}
@@ -113,8 +114,8 @@ export const CatFilter = ({ catBreeds, defaultValues }: CatFilterProps) => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="none">未指定</SelectItem>
-                    <SelectItem value="MALE">オス</SelectItem>
-                    <SelectItem value="FEMALE">メス</SelectItem>
+                    <SelectItem value={SexEnum.MALE}>オス</SelectItem>
+                    <SelectItem value={SexEnum.FEMALE}>メス</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

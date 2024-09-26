@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { catBreeds } from '@/data/cat-breed'
 
 interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cat: Cat
@@ -17,6 +18,7 @@ interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   height?: number
 }
 export const CatCard = ({ cat }: CatCardProps) => {
+  const catBreed = catBreeds.find((breed) => breed.enum === cat.catBreed)
   return (
     <Dialog>
       <DialogTrigger>
@@ -26,7 +28,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
-            <p>{cat.catBreedId}</p>
+            <p>{catBreed?.name}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -52,7 +54,7 @@ const CatDialogContent = ({ cat }: { cat: Cat }) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3">{cat.catBreedId}</div>
+          <div className="col-span-3">{cat.catBreed}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>

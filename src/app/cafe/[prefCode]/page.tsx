@@ -37,23 +37,20 @@ export default async function Page({
   const cats = await db.cat.findMany({
     where: {
       CatCafeDetail: {
-        prefectureId: prefecture.id,
+        prefecture: prefecture.enum,
       },
-      catBreedId: {
+      catBreed: {
         in: catFilter.data?.catBreeds,
       },
       sex: catFilter.data?.catSex,
     },
-    include: { CatBreed: true },
   })
-
-  const catBreeds = await db.catBreed.findMany()
 
   return (
     <ContentLayout title={`猫カフェ検索 - ${prefecture.name}`}>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-3">
-          <CafeFilter catBreeds={catBreeds} defaultValues={catFilter.data?.catBreeds} />
+          <CafeFilter defaultValues={catFilter.data?.catBreeds} />
         </div>
         <div className="col-span-9">
           <div className="grid grid-cols-3 gap-4">
