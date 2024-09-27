@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { catBreeds } from '@/data/cat-breed'
+import { catBreedObj } from '@/data/cat-breed'
 
 type CatFilterProps = {
   defaultValues?: CatBreedEnum[]
@@ -68,30 +68,25 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
           render={() => (
             <FormItem>
               <FormLabel className="text-base">猫種</FormLabel>
-              {catBreeds.map((breed) => (
+              {Object.keys(catBreedObj).map((key) => (
                 <FormField
-                  key={breed.enum}
+                  key={key}
                   control={form.control}
                   name="catBreeds"
                   render={({ field }) => {
                     return (
-                      <FormItem
-                        key={breed.enum}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
+                      <FormItem key={key} className="flex flex-row items-start space-x-3 space-y-0">
                         <FormControl>
                           <Checkbox
-                            checked={field.value?.includes(breed.enum)}
+                            checked={field.value?.includes(key)}
                             onCheckedChange={(checked) => {
                               return checked
-                                ? field.onChange([...field.value, breed.enum])
-                                : field.onChange(
-                                    field.value?.filter((value) => value !== breed.enum),
-                                  )
+                                ? field.onChange([...field.value, key])
+                                : field.onChange(field.value?.filter((value) => value !== key))
                             }}
                           />
                         </FormControl>
-                        <FormLabel className="font-normal">{breed.name}</FormLabel>
+                        <FormLabel className="font-normal">{catBreedObj[key].name}</FormLabel>
                       </FormItem>
                     )
                   }}

@@ -1,16 +1,18 @@
 import { CatBreedEnum } from '@prisma/client'
 
-export const catBreeds = [
-  {
+type CatBreed = { [key: string]: { name: string } }
+
+export const catBreedObj: CatBreed = {
+  [CatBreedEnum.MINUET]: {
     name: 'ミヌエット',
-    enum: CatBreedEnum.MINUET,
   },
-  {
+  [CatBreedEnum.MUNCHKIN]: {
     name: 'マンチカン',
-    enum: CatBreedEnum.MUNCHKIN,
   },
-  {
+  [CatBreedEnum.PERSIAN]: {
     name: 'ペルシアン',
-    enum: CatBreedEnum.PERSIAN,
   },
-]
+  [CatBreedEnum.OTHER]: {
+    name: 'その他',
+  },
+}

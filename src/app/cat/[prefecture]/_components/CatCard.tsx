@@ -1,4 +1,4 @@
-import { Cat } from '@prisma/client'
+import { Cat, CatBreedEnum, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -9,16 +9,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { catBreeds } from '@/data/cat-breed'
+import { catBreedObj } from '@/data/cat-breed'
 
 interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cat: Cat
-  aspectRatio?: 'portrait' | 'square'
-  width?: number
-  height?: number
 }
+
 export const CatCard = ({ cat }: CatCardProps) => {
-  const catBreed = catBreeds.find((breed) => breed.enum === cat.catBreed)
+  const catBreedName = catBreedObj[cat.catBreed].name
   return (
     <Dialog>
       <DialogTrigger>
@@ -28,7 +26,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
-            <p>{catBreed?.name}</p>
+            <p>{catBreedName}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -38,6 +36,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
 }
 
 const CatDialogContent = ({ cat }: { cat: Cat }) => {
+  const catBreedName = catBreedObj[cat.catBreed].name
   return (
     <DialogContent className="w-auto" showClose={false}>
       <Image
@@ -54,11 +53,11 @@ const CatDialogContent = ({ cat }: { cat: Cat }) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3">{cat.catBreed}</div>
+          <div className="col-span-3">{catBreedName}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>
-          <div className="col-span-3">{cat.sex}</div>
+          <div className="col-span-3">{getSexName(cat.sex)}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">生年月日</div>
@@ -108,4 +107,15 @@ const CatDialogContent = ({ cat }: { cat: Cat }) => {
       </DialogFooter>
     </DialogContent>
   )
+}
+
+function getSexName(sexEnum: SexEnum) {
+  switch (sexEnum) {
+    case 'MALE':
+      return 'オス'
+    case 'FEMALE':
+      return 'メス'
+    default:
+      return '不明'
+  }
 }
