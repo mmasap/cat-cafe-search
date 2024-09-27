@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { Checkbox } from '@/components/ui/checkbox'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useForm, UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import {
@@ -17,6 +17,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { catBreedObj } from '@/data/cat-breed'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 type CatFilterProps = {
   defaultValues?: CatBreedEnum[]
@@ -35,7 +45,7 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      catBreeds: defaultValues || [],
+      catBreeds: searchParams.get('catBreeds')?.toUpperCase().split(',') ?? [],
       catSex: 'none',
     },
   })
@@ -43,6 +53,7 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
   useEffect(() => {
     const subscription = form.watch((value) => {
       const params = new URLSearchParams(searchParams)
+      params.delete('page')
       if (value.catBreeds && value.catBreeds.length > 0) {
         params.set('catBreeds', value.catBreeds.join(',').toLowerCase())
       } else {
@@ -60,8 +71,34 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
   }, [form, pathname, router, searchParams])
 
   return (
+    <>
+      <Dialog>
+        <DialogTrigger asChild className="md:hidden">
+          <Button>フィルタ</Button>
+        </DialogTrigger>
+        <DialogContent className="w-80">
+          <DialogHeader>
+            <DialogTitle>検索条件</DialogTitle>
+            <DialogDescription className="hidden">Filter</DialogDescription>
+          </DialogHeader>
+          <CatFilterForm form={form} />
+        </DialogContent>
+      </Dialog>
+      <CatFilterForm className="hidden md:block" form={form} />
+    </>
+  )
+}
+
+const CatFilterForm = ({
+  className,
+  form,
+}: {
+  className?: string
+  form: UseFormReturn<z.infer<typeof FormSchema>>
+}) => {
+  return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form className={cn('space-y-4', className)}>
         <FormField
           control={form.control}
           name="catBreeds"
@@ -80,6 +117,7 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
                           <Checkbox
                             checked={field.value?.includes(key)}
                             onCheckedChange={(checked) => {
+                              console.log(field.value)
                               return checked
                                 ? field.onChange([...field.value, key])
                                 : field.onChange(field.value?.filter((value) => value !== key))
@@ -101,8 +139,7 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">性別</FormLabel>
-
-              <Select defaultValue={field.value} onValueChange={field.onChange}>
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>

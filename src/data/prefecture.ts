@@ -1,6 +1,13 @@
 import { PrefectureEnum } from '@prisma/client'
 
-export const prefectureData = [
+export type Prefecture = {
+  name: string
+  region: string
+  code: number
+  enum: PrefectureEnum
+}
+
+export const prefectureData: Prefecture[] = [
   {
     name: '北海道',
     region: '北海道',

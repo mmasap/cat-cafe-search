@@ -1,18 +1,25 @@
-import { Cat, CatBreedEnum, SexEnum } from '@prisma/client'
+import { Cat, CatCafe, CatCafeDetail, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { catBreedObj } from '@/data/cat-breed'
 
 interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  cat: Cat
+  cat: Cat & {
+    CatCafeDetail: CatCafeDetail & {
+      CatCafe: CatCafe
+    }
+  }
 }
 
 export const CatCard = ({ cat }: CatCardProps) => {
@@ -35,10 +42,14 @@ export const CatCard = ({ cat }: CatCardProps) => {
   )
 }
 
-const CatDialogContent = ({ cat }: { cat: Cat }) => {
+const CatDialogContent = ({ cat }: CatCardProps) => {
   const catBreedName = catBreedObj[cat.catBreed].name
   return (
-    <DialogContent className="w-auto" showClose={false}>
+    <DialogContent className="w-11/12" showClose={false}>
+      <DialogHeader className="hidden">
+        <DialogTitle>詳細情報</DialogTitle>
+        <DialogDescription>猫の詳細情報を表示します</DialogDescription>
+      </DialogHeader>
       <Image
         src={cat.image}
         alt={cat.name}
@@ -67,6 +78,14 @@ const CatDialogContent = ({ cat }: { cat: Cat }) => {
               month: '2-digit',
               day: '2-digit',
             })}
+          </div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-xs basis-16">店舗</div>
+          <div className="col-span-3">
+            <a target="_blank" rel="noreferrer" href={cat.CatCafeDetail.url}>
+              {cat.CatCafeDetail.CatCafe.name} {cat.CatCafeDetail.name}
+            </a>
           </div>
         </div>
       </div>
