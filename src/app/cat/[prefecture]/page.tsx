@@ -2,12 +2,12 @@ import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
 import { Prefecture, prefectureData } from '@/data/prefecture'
 import db from '@/lib/db'
-import { CatCard } from './_components/CatCard'
-import { CatFilter } from './_components/CatFilter'
-import { CatBreedEnum, SexEnum, Prisma, PrefectureEnum } from '@prisma/client'
+import { CatCard } from './_components/cat-card'
+import { CatFilter } from './_components/cat-filter'
+import { CatBreedEnum, SexEnum, Prisma } from '@prisma/client'
 import { z } from 'zod'
-import { Pagination } from './_components/Pagination'
-import { NoCat } from './_components/NoCat'
+import { Pagination } from '@/components/navigation/pagination'
+import { NoCat } from './_components/no-cat'
 
 type PageProps = {
   params: { prefecture: string }
@@ -65,7 +65,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
 function createCatWhere(prefecture: Prefecture, catFilter: CatFilter): Prisma.CatWhereInput {
   return {
-    CatCafeDetail: {
+    ShopDetail: {
       prefecture: prefecture.enum,
     },
     catBreed: {
@@ -83,8 +83,8 @@ function getCats(where: Prisma.CatWhereInput, page: number) {
   return db.cat.findMany({
     where,
     include: {
-      CatCafeDetail: {
-        include: { CatCafe: true },
+      ShopDetail: {
+        include: { Shop: true },
       },
     },
     take: CAT_TAKE_NUM,

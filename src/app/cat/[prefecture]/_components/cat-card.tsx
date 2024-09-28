@@ -1,4 +1,4 @@
-import { Cat, CatCafe, CatCafeDetail, SexEnum } from '@prisma/client'
+import { Cat, Shop, ShopDetail, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -16,8 +16,8 @@ import { catBreedObj } from '@/data/cat-breed'
 
 interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cat: Cat & {
-    CatCafeDetail: CatCafeDetail & {
-      CatCafe: CatCafe
+    ShopDetail: ShopDetail & {
+      Shop: Shop
     }
   }
 }
@@ -83,8 +83,8 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         <div className="flex items-center">
           <div className="text-xs basis-16">店舗</div>
           <div className="col-span-3">
-            <a target="_blank" rel="noreferrer" href={cat.CatCafeDetail.url}>
-              {cat.CatCafeDetail.CatCafe.name} {cat.CatCafeDetail.name}
+            <a target="_blank" rel="noreferrer" href={cat.ShopDetail.url}>
+              {cat.ShopDetail.Shop.name} {cat.ShopDetail.name}
             </a>
           </div>
         </div>

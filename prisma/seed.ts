@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-import { createCatCafes } from './seed/catCafe'
+import { createShops } from './seed/shop'
 
 const prisma = new PrismaClient()
 
 async function main() {
   await prisma.catImage.deleteMany()
   await prisma.cat.deleteMany()
-  await prisma.catCafeDetail.deleteMany()
-  await prisma.catCafe.deleteMany()
-  await createCatCafes()
+  await prisma.shopDetail.deleteMany()
+  await prisma.shop.deleteMany()
+  await createShops()
 }
 
 main()

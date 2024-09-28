@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
 import { prefectureData } from '@/data/prefecture'
 import db from '@/lib/db'
-import { CafeCard } from './_components/CafeCard'
-import { CafeFilter } from './_components/CafeFilter'
+import { ShopCard } from './_components/shop-card'
+import { ShopFilter } from './_components/shop-filter'
 import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { z } from 'zod'
 
@@ -20,44 +20,33 @@ const catFilterSchema = z.object({
 
 export default async function Page({
   params,
-  searchParams,
 }: {
-  params: { prefCode: string }
+  params: { prefecture: string }
   searchParams: { catBreeds: string | string[] | undefined; catSex: string | undefined }
 }) {
-  const prefecture = prefectureData.find((pref) => pref.code === +params.prefCode)
+  const prefecture = prefectureData.find((pref) => pref.enum === params.prefecture.toUpperCase())
 
-  if (!prefecture) redirect('/cats')
+  if (!prefecture) redirect('/shop')
 
-  const catFilter = catFilterSchema.safeParse({
-    catBreeds: searchParams.catBreeds,
-    catSex: searchParams.catSex,
-  })
-
-  const cats = await db.cat.findMany({
+  const shopDetails = await db.shopDetail.findMany({
     where: {
-      CatCafeDetail: {
-        prefecture: prefecture.enum,
-      },
-      catBreed: {
-        in: catFilter.data?.catBreeds,
-      },
-      sex: catFilter.data?.catSex,
+      prefecture: prefecture.enum,
+    },
+    include: {
+      Shop: true,
     },
   })
 
   return (
     <ContentLayout title={`猫カフェ検索 - ${prefecture.name}`}>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-3">
-          <CafeFilter defaultValues={catFilter.data?.catBreeds} />
+        <div className="col-span-12 md:col-span-4 lg:col-span-3">
+          <ShopFilter />
         </div>
-        <div className="col-span-9">
-          <div className="grid grid-cols-3 gap-4">
-            {cats.map((cat) => (
-              <CafeCard key={cat.id} cat={cat} />
-            ))}
-          </div>
+        <div className="col-span-12 md:col-span-8 lg:col-span-9 space-y-4">
+          {shopDetails.map((shopDetail) => (
+            <ShopCard key={shopDetail.id} shopDetail={shopDetail} />
+          ))}
         </div>
       </div>
     </ContentLayout>

@@ -17,7 +17,7 @@ const FormSchema = z.object({
   catSex: z.enum(['none', 'male', 'female']).optional(),
 })
 
-export const CafeFilter = ({ defaultValues }: CafeFilterProps) => {
+export const ShopFilter = ({ defaultValues }: CafeFilterProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()

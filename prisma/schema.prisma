@@ -13,16 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model CatCafe {
-  id            Int             @id @default(autoincrement())
-  name          String
-  url           String
-  CatCafeDetail CatCafeDetail[]
+model Shop {
+  id         Int          @id @default(autoincrement())
+  name       String
+  url        String
+  ShopDetail ShopDetail[]
 }
 
-model CatCafeDetail {
+model ShopDetail {
   id              Int             @id @default(autoincrement())
-  catCafeId       Int
+  shopId          Int
   name            String
   prefecture      PrefectureEnum
   address         String
@@ -30,23 +30,24 @@ model CatCafeDetail {
   close           String
   lastEntry       String?
   url             String
+  image           String
   regularHolidays DayOfWeekEnum[]
-  CatCafe         CatCafe         @relation(fields: [catCafeId], references: [id])
+  Shop            Shop            @relation(fields: [shopId], references: [id])
   Cat             Cat[]
 }
 
 model Cat {
-  id              Int           @id @default(autoincrement())
-  catCafeDetailId Int
-  name            String
-  sex             SexEnum
-  birthDate       DateTime
-  image           String
-  youtube         String?
-  instagram       String?
-  catBreed        CatBreedEnum
-  CatCafeDetail   CatCafeDetail @relation(fields: [catCafeDetailId], references: [id])
-  CatImage        CatImage[]
+  id           Int          @id @default(autoincrement())
+  shopDetailId Int
+  name         String
+  sex          SexEnum
+  birthDate    DateTime
+  image        String
+  youtube      String?
+  instagram    String?
+  catBreed     CatBreedEnum
+  ShopDetail   ShopDetail   @relation(fields: [shopDetailId], references: [id])
+  CatImage     CatImage[]
 }
 
 model CatImage {
