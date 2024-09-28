@@ -1,4 +1,4 @@
-import { Cat, Shop, ShopDetail, SexEnum } from '@prisma/client'
+import type { Cat, Shop, ShopDetail, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {

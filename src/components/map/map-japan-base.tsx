@@ -39,6 +39,7 @@ const JapanMap = () => {
       .data(geoJson.features)
       .enter()
       .append('path')
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       .attr('d', path as any)
       .attr('stroke', '#666')
       .attr('stroke-width', 0.25)

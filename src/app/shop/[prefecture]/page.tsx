@@ -8,13 +8,10 @@ import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { z } from 'zod'
 
 const catFilterSchema = z.object({
-  catBreeds: z.preprocess(
-    (val) => {
-      if (typeof val === 'string') return val.toUpperCase().split(',')
-      if (Array.isArray(val)) return val.map((val) => String(val).toUpperCase())
-    },
-    z.array(z.nativeEnum(CatBreedEnum)).optional(),
-  ),
+  catBreeds: z.preprocess((val) => {
+    if (typeof val === 'string') return val.toUpperCase().split(',')
+    if (Array.isArray(val)) return val.map((val) => String(val).toUpperCase())
+  }, z.array(z.nativeEnum(CatBreedEnum)).optional()),
   catSex: z.nativeEnum(SexEnum).optional(),
 })
 
@@ -22,7 +19,10 @@ export default async function Page({
   params,
 }: {
   params: { prefecture: string }
-  searchParams: { catBreeds: string | string[] | undefined; catSex: string | undefined }
+  searchParams: {
+    catBreeds: string | string[] | undefined
+    catSex: string | undefined
+  }
 }) {
   const prefecture = prefectureData.find((pref) => pref.enum === params.prefecture.toUpperCase())
 

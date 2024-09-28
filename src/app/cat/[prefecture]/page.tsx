@@ -1,17 +1,20 @@
 import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
-import { Prefecture, prefectureData } from '@/data/prefecture'
+import { type Prefecture, prefectureData } from '@/data/prefecture'
 import db from '@/lib/db'
 import { CatCard } from './_components/cat-card'
 import { CatFilter } from './_components/cat-filter'
-import { CatBreedEnum, SexEnum, Prisma } from '@prisma/client'
+import { CatBreedEnum, SexEnum, type Prisma } from '@prisma/client'
 import { z } from 'zod'
 import { Pagination } from '@/components/navigation/pagination'
 import { NoCat } from './_components/no-cat'
 
 type PageProps = {
   params: { prefecture: string }
-  searchParams: { catBreeds: string | string[] | undefined; catSex: string | undefined }
+  searchParams: {
+    catBreeds: string | string[] | undefined
+    catSex: string | undefined
+  }
 }
 
 const CAT_TAKE_NUM = 12
@@ -27,8 +30,6 @@ const catFilterSchema = z.object({
   ),
   catSex: z.preprocess((val) => val && String(val).toUpperCase(), z.nativeEnum(SexEnum).optional()),
 })
-
-type CatFilter = z.infer<typeof catFilterSchema>
 
 export default async function Page({ params, searchParams }: PageProps) {
   try {
@@ -63,7 +64,10 @@ export default async function Page({ params, searchParams }: PageProps) {
   }
 }
 
-function createCatWhere(prefecture: Prefecture, catFilter: CatFilter): Prisma.CatWhereInput {
+function createCatWhere(
+  prefecture: Prefecture,
+  catFilter: z.infer<typeof catFilterSchema>,
+): Prisma.CatWhereInput {
   return {
     ShopDetail: {
       prefecture: prefecture.enum,

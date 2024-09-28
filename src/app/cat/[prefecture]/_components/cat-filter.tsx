@@ -1,11 +1,11 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CatBreedEnum, SexEnum } from '@prisma/client'
+import { type CatBreedEnum, SexEnum } from '@prisma/client'
 import { Checkbox } from '@/components/ui/checkbox'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { useForm, type UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import {

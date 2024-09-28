@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CatBreedEnum } from '@prisma/client'
+import type { CatBreedEnum } from '@prisma/client'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -51,7 +51,9 @@ export const ShopFilter = ({ defaultValues }: CafeFilterProps) => {
 
   return (
     <Form {...form}>
-      <form className="space-y-6"></form>
+      <form className="space-y-6">
+        <div>test</div>
+      </form>
     </Form>
   )
 }
