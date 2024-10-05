@@ -3,18 +3,19 @@
 import type { MouseEvent } from 'react'
 
 type JapanMapProps = {
-  onClick?: (prefCode: number) => void
-  onMouseEnter?: (prefCode: number) => void
+  onClick?: (code: number) => void
+  onMouseEnter?: (code: number) => void
 } & React.ComponentProps<'path'>
 
 const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
   const handleMouseEvent = ({ target, type }: MouseEvent) => {
     if (!(target instanceof Element)) return
-    const prefCode = Number(target.getAttribute('data-pref-code'))
+    const code = Number(target.getAttribute('data-code'))
+
     if (onMouseEnter && type === 'mouseenter') {
-      onMouseEnter(prefCode)
+      onMouseEnter(code)
     } else if (onClick && type === 'click') {
-      onClick(prefCode)
+      onClick(code)
     }
   }
 
@@ -27,7 +28,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d4e8ff"
         cursor="pointer"
-        data-pref-code="1"
+        data-code="1"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -38,7 +39,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="2"
+        data-code="2"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -49,7 +50,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="3"
+        data-code="3"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -60,7 +61,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="4"
+        data-code="4"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -71,7 +72,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="5"
+        data-code="5"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -82,7 +83,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="6"
+        data-code="6"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -93,7 +94,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#d3f6fe"
         cursor="pointer"
-        data-pref-code="7"
+        data-code="7"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -104,7 +105,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="8"
+        data-code="8"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -115,7 +116,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="9"
+        data-code="9"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -126,7 +127,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="10"
+        data-code="10"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -137,7 +138,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="11"
+        data-code="11"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -148,7 +149,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="12"
+        data-code="12"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -159,7 +160,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="13"
+        data-code="13"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -170,7 +171,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffeac9"
         cursor="pointer"
-        data-pref-code="14"
+        data-code="14"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -181,7 +182,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="15"
+        data-code="15"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -192,7 +193,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="16"
+        data-code="16"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -203,7 +204,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="17"
+        data-code="17"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -214,7 +215,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="18"
+        data-code="18"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -225,7 +226,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="19"
+        data-code="19"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -236,7 +237,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="20"
+        data-code="20"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -247,7 +248,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="21"
+        data-code="21"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -258,7 +259,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="22"
+        data-code="22"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -269,7 +270,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ffe4e4"
         cursor="pointer"
-        data-pref-code="23"
+        data-code="23"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -280,7 +281,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="24"
+        data-code="24"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -291,7 +292,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="25"
+        data-code="25"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -302,7 +303,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="26"
+        data-code="26"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -313,7 +314,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="27"
+        data-code="27"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -324,7 +325,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="28"
+        data-code="28"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -335,7 +336,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="29"
+        data-code="29"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -346,7 +347,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3e9ca"
         cursor="pointer"
-        data-pref-code="30"
+        data-code="30"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -357,7 +358,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ddeee8"
         cursor="pointer"
-        data-pref-code="31"
+        data-code="31"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -368,7 +369,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ddeee8"
         cursor="pointer"
-        data-pref-code="32"
+        data-code="32"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -379,7 +380,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ddeee8"
         cursor="pointer"
-        data-pref-code="33"
+        data-code="33"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -390,7 +391,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ddeee8"
         cursor="pointer"
-        data-pref-code="34"
+        data-code="34"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -401,7 +402,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ddeee8"
         cursor="pointer"
-        data-pref-code="35"
+        data-code="35"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -412,7 +413,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ebe6dd"
         cursor="pointer"
-        data-pref-code="36"
+        data-code="36"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -423,7 +424,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ebe6dd"
         cursor="pointer"
-        data-pref-code="37"
+        data-code="37"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -434,7 +435,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ebe6dd"
         cursor="pointer"
-        data-pref-code="38"
+        data-code="38"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -445,7 +446,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#ebe6dd"
         cursor="pointer"
-        data-pref-code="39"
+        data-code="39"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -456,7 +457,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3dcff"
         cursor="pointer"
-        data-pref-code="40"
+        data-code="40"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -466,7 +467,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         stroke="#666"
         strokeWidth="0.25"
         fill="#e3dcff"
-        data-pref-code="41"
+        data-code="41"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -476,7 +477,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         stroke="#666"
         strokeWidth="0.25"
         fill="#e3dcff"
-        data-pref-code="42"
+        data-code="42"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -487,7 +488,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3dcff"
         cursor="pointer"
-        data-pref-code="43"
+        data-code="43"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -498,7 +499,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3dcff"
         cursor="pointer"
-        data-pref-code="44"
+        data-code="44"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -509,7 +510,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3dcff"
         cursor="pointer"
-        data-pref-code="45"
+        data-code="45"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -520,7 +521,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#e3dcff"
         cursor="pointer"
-        data-pref-code="46"
+        data-code="46"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}
@@ -534,7 +535,7 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
         strokeWidth="0.25"
         fill="#f0d7f1"
         cursor="pointer"
-        data-pref-code="47"
+        data-code="47"
         onClick={handleMouseEvent}
         onMouseEnter={handleMouseEvent}
         {...props}

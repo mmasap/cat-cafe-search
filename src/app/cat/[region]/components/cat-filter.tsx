@@ -1,12 +1,7 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { type CatBreedEnum, SexEnum } from '@prisma/client'
 import { Checkbox } from '@/components/ui/checkbox'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useForm, type UseFormReturn } from 'react-hook-form'
-import { z } from 'zod'
+import { useParams } from 'next/navigation'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import {
   Select,
@@ -27,49 +22,11 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { prefectureData } from '@/data/prefecture'
+import { type CatFilterFormSchema, useCatFilterForm } from '../hooks/use-cat-filter'
 
-type CatFilterProps = {
-  defaultValues?: CatBreedEnum[]
-}
-
-const FormSchema = z.object({
-  catBreeds: z.array(z.string()),
-  catSex: z.enum(['none', 'male', 'female']).optional(),
-})
-
-export const CatFilter = ({ defaultValues }: CatFilterProps) => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      catBreeds: searchParams.get('catBreeds')?.toUpperCase().split(',') ?? [],
-      catSex: 'none',
-    },
-  })
-
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      const params = new URLSearchParams(searchParams)
-      params.delete('page')
-      if (value.catBreeds && value.catBreeds.length > 0) {
-        params.set('catBreeds', value.catBreeds.join(',').toLowerCase())
-      } else {
-        params.delete('catBreeds')
-      }
-      if (value.catSex && value.catSex !== 'none') {
-        params.set('catSex', value.catSex.toLowerCase())
-      } else {
-        params.delete('catSex')
-      }
-      params.sort()
-      router.push(`${pathname}?${params.toString()}`, { scroll: false })
-    })
-    return () => subscription.unsubscribe()
-  }, [form, pathname, router, searchParams])
-
+export const CatFilter = () => {
+  const form = useCatFilterForm()
   return (
     <>
       <Dialog>
@@ -89,19 +46,54 @@ export const CatFilter = ({ defaultValues }: CatFilterProps) => {
   )
 }
 
-const CatFilterForm = ({
-  className,
-  form,
-}: {
-  className?: string
-  form: UseFormReturn<z.infer<typeof FormSchema>>
-}) => {
+const CatFilterForm = ({ className, form }: { className?: string; form: CatFilterFormSchema }) => {
+  const params = useParams()
   return (
     <Form {...form}>
       <form className={cn('space-y-4', className)}>
         <FormField
           control={form.control}
-          name="catBreeds"
+          name="prefectures"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-base">都道府県</FormLabel>
+              {prefectureData
+                .filter((prefecture) => prefecture.region === params.region)
+                .map((prefecture) => (
+                  <FormField
+                    key={prefecture.code}
+                    control={form.control}
+                    name="prefectures"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={prefecture.code}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(prefecture.code)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, prefecture.code])
+                                  : field.onChange(
+                                      field.value?.filter((value) => value !== prefecture.code),
+                                    )
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">{prefecture.name}</FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))}
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="breeds"
           render={() => (
             <FormItem>
               <FormLabel className="text-base">猫種</FormLabel>
@@ -109,7 +101,7 @@ const CatFilterForm = ({
                 <FormField
                   key={key}
                   control={form.control}
-                  name="catBreeds"
+                  name="breeds"
                   render={({ field }) => {
                     return (
                       <FormItem key={key} className="flex flex-row items-start space-x-3 space-y-0">
@@ -117,7 +109,6 @@ const CatFilterForm = ({
                           <Checkbox
                             checked={field.value?.includes(key)}
                             onCheckedChange={(checked) => {
-                              console.log(field.value)
                               return checked
                                 ? field.onChange([...field.value, key])
                                 : field.onChange(field.value?.filter((value) => value !== key))
@@ -135,19 +126,19 @@ const CatFilterForm = ({
         />
         <FormField
           control={form.control}
-          name="catSex"
+          name="sex"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-base">性別</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select value={field.value ?? 'none'} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="none">未指定</SelectItem>
-                    <SelectItem value={SexEnum.MALE}>オス</SelectItem>
-                    <SelectItem value={SexEnum.FEMALE}>メス</SelectItem>
+                    <SelectItem value="male">オス</SelectItem>
+                    <SelectItem value="female">メス</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

@@ -8,29 +8,34 @@ import { CatBreedEnum, SexEnum } from '@prisma/client'
 import { z } from 'zod'
 
 const catFilterSchema = z.object({
-  catBreeds: z.preprocess((val) => {
-    if (typeof val === 'string') return val.toUpperCase().split(',')
-    if (Array.isArray(val)) return val.map((val) => String(val).toUpperCase())
-  }, z.array(z.nativeEnum(CatBreedEnum)).optional()),
+  catBreeds: z.preprocess(
+    (val) => {
+      if (typeof val === 'string') return val.toUpperCase().split(',')
+      if (Array.isArray(val)) return val.map((val) => String(val).toUpperCase())
+    },
+    z.array(z.nativeEnum(CatBreedEnum)).optional(),
+  ),
   catSex: z.nativeEnum(SexEnum).optional(),
 })
 
 export default async function Page({
   params,
 }: {
-  params: { prefecture: string }
+  params: { region: string }
   searchParams: {
     catBreeds: string | string[] | undefined
     catSex: string | undefined
   }
 }) {
-  const prefecture = prefectureData.find((pref) => pref.enum === params.prefecture.toUpperCase())
+  const prefectures = prefectureData.filter((pref) => pref.region === params.region.toLowerCase())
 
-  if (!prefecture) redirect('/shop')
+  if (!prefectures) redirect('/shop')
 
   const shopDetails = await db.shopDetail.findMany({
     where: {
-      prefecture: prefecture.enum,
+      prefecture: {
+        in: prefectures.map((prefecture) => prefecture.enum),
+      },
     },
     include: {
       Shop: true,
@@ -38,7 +43,7 @@ export default async function Page({
   })
 
   return (
-    <ContentLayout title={`猫カフェ検索 - ${prefecture.name}`}>
+    <ContentLayout title="猫カフェ検索 - 関東">
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-4 lg:col-span-3">
           <ShopFilter />

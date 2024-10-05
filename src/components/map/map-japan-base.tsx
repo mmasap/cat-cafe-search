@@ -16,8 +16,8 @@ const REGION_COLOR_MAP: ReadonlyMap<string, string> = new Map([
   ['Okinawa', '#f0d7f1'],
 ])
 
-const MAP_SIZE = 500
-const centerPos: [number, number] = [137.0, 38.2]
+const MAP_SIZE = 320
+const centerPos: [number, number] = [137.6, 36.6]
 
 const JapanMap = () => {
   const ref = useRef<SVGSVGElement>(null)
@@ -30,13 +30,13 @@ const JapanMap = () => {
       .geoMercator()
       .center(centerPos)
       .translate([MAP_SIZE / 2, MAP_SIZE / 2])
-      .scale(1400)
+      .scale(3400)
 
     // 地図をpathに投影(変換)
     const path = d3.geoPath().projection(projection)
     d3.select(ref.current)
       .selectAll('path')
-      .data(geoJson.features)
+      .data(geoJson.features.filter((item) => item.properties.region === 'Chubu'))
       .enter()
       .append('path')
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -52,7 +52,11 @@ const JapanMap = () => {
 
   return (
     <div className="relative aspect-square">
-      <svg ref={ref} viewBox={`0 0 ${MAP_SIZE - 20} ${MAP_SIZE}`} className="absolute inset-0" />
+      <svg
+        ref={ref}
+        viewBox={`0 0 ${MAP_SIZE} ${MAP_SIZE}`}
+        className="absolute inset-0 w-[500px]"
+      />
     </div>
   )
 }

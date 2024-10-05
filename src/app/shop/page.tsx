@@ -1,7 +1,7 @@
 'use client'
 
 import { ContentLayout } from '@/components/layout/content-layout'
-import MapJapan from '@/components/map/map-japan'
+import MapJapan from '@/components/map/japan'
 import { prefectureData } from '@/data/prefecture'
 import { usePathname, useRouter } from 'next/navigation'
 
