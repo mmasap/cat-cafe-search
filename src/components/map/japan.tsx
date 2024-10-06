@@ -2,12 +2,12 @@
 
 import type { MouseEvent } from 'react'
 
-type JapanMapProps = {
+type JapanMapProps = Omit<React.ComponentProps<'path'>, 'onClick' | 'onMouseEnter'> & {
   onClick?: (code: number) => void
   onMouseEnter?: (code: number) => void
-} & React.ComponentProps<'path'>
+}
 
-const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
+const JapanMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
   const handleMouseEvent = ({ target, type }: MouseEvent) => {
     if (!(target instanceof Element)) return
     const code = Number(target.getAttribute('data-code'))
@@ -544,4 +544,4 @@ const JapanStaticMap = ({ onClick, onMouseEnter, ...props }: JapanMapProps) => {
   )
 }
 
-export default JapanStaticMap
+export default JapanMap

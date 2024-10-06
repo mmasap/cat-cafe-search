@@ -2,63 +2,71 @@ import { PrefectureEnum } from '@prisma/client'
 
 export type Prefecture = {
   name: string
-  region: (typeof regions)[number]
+  region: (typeof regionCodes)[number]
   code: number
   enum: PrefectureEnum
 }
 
-export const regions = [
-  'hokkaido',
-  'tohoku',
+export const regionCodes = [
+  'hokkaido-tohoku',
   'kanto',
   'chubu',
   'kinki',
   'chugoku',
   'shikoku',
-  'kyushu',
-  'okinawa',
+  'kyushu-okinawa',
 ] as const
+
+export const regions: { name: string; code: (typeof regionCodes)[number] }[] = [
+  { name: '北海道・東北', code: 'hokkaido-tohoku' },
+  { name: '関東', code: 'kanto' },
+  { name: '中部', code: 'chubu' },
+  { name: '近畿', code: 'kinki' },
+  { name: '中国', code: 'chugoku' },
+  { name: '四国', code: 'shikoku' },
+  { name: '九州・沖縄', code: 'kyushu-okinawa' },
+]
 
 export const prefectureData: Prefecture[] = [
   {
     name: '北海道',
-    region: 'hokkaido',
+    region: 'hokkaido-tohoku',
     code: 1,
     enum: PrefectureEnum.HOKKAIDO,
   },
   {
     name: '青森県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 2,
     enum: PrefectureEnum.AOMORI,
   },
   {
     name: '岩手県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 3,
     enum: PrefectureEnum.IWATE,
   },
   {
     name: '宮城県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 4,
     enum: PrefectureEnum.MIYAGI,
   },
   {
     name: '秋田県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 5,
     enum: PrefectureEnum.AKITA,
   },
   {
     name: '山形県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 6,
     enum: PrefectureEnum.YAMAGATA,
   },
   {
     name: '福島県',
-    region: 'tohoku',
+    region: 'hokkaido-tohoku',
     code: 7,
     enum: PrefectureEnum.FUKUSHIMA,
   },
@@ -256,49 +264,49 @@ export const prefectureData: Prefecture[] = [
   },
   {
     name: '福岡県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 40,
     enum: PrefectureEnum.FUKUOKA,
   },
   {
     name: '佐賀県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 41,
     enum: PrefectureEnum.SAGA,
   },
   {
     name: '長崎県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 42,
     enum: PrefectureEnum.NAGASAKI,
   },
   {
     name: '熊本県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 43,
     enum: PrefectureEnum.KUMAMOTO,
   },
   {
     name: '大分県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 44,
     enum: PrefectureEnum.OITA,
   },
   {
     name: '宮崎県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 45,
     enum: PrefectureEnum.MIYAZAKI,
   },
   {
     name: '鹿児島県',
-    region: 'kyushu',
+    region: 'kyushu-okinawa',
     code: 46,
     enum: PrefectureEnum.KAGOSHIMA,
   },
   {
     name: '沖縄県',
-    region: 'okinawa',
+    region: 'kyushu-okinawa',
     code: 47,
     enum: PrefectureEnum.OKINAWA,
   },

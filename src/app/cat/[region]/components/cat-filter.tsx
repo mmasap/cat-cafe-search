@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { prefectureData } from '@/data/prefecture'
+import { prefectureData, regions } from '@/data/prefecture'
 import { type CatFilterFormSchema, useCatFilterForm } from '../hooks/use-cat-filter'
 
 export const CatFilter = () => {
@@ -51,6 +51,29 @@ const CatFilterForm = ({ className, form }: { className?: string; form: CatFilte
   return (
     <Form {...form}>
       <form className={cn('space-y-4', className)}>
+        <FormField
+          control={form.control}
+          name="region"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">地域</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {regions.map((region) => (
+                      <SelectItem key={region.code} value={region.code}>
+                        {region.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="prefectures"
@@ -147,5 +170,31 @@ const CatFilterForm = ({ className, form }: { className?: string; form: CatFilte
         />
       </form>
     </Form>
+  )
+}
+
+function select() {
+  return (
+    // <>
+    // <Select value={field.value} onValueChange={field.onChange}>
+    //                   <SelectTrigger className="w-full">
+    //                     <SelectValue />
+    //                   </SelectTrigger>
+    //                   <SelectContent>
+    //                     <SelectGroup>
+    //                       <SelectItem value="hokkaido">北海道</SelectItem>
+    //                       <SelectItem value="tohoku">東北</SelectItem>
+    //                       <SelectItem value="kanto">関東</SelectItem>
+    //                       <SelectItem value="chubu">中部</SelectItem>
+    //                       <SelectItem value="kinki">近畿</SelectItem>
+    //                       <SelectItem value="chugoku">中国</SelectItem>
+    //                       <SelectItem value="shikoku">四国</SelectItem>
+    //                       <SelectItem value="kyushu">九州</SelectItem>
+    //                       <SelectItem value="okinawa">沖縄</SelectItem>
+    //                     </SelectGroup>
+    //                   </SelectContent>
+    //                 </Select>
+    // </>
+    <></>
   )
 }

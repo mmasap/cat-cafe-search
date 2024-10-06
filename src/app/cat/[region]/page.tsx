@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
-import { prefectureData, regions } from '@/data/prefecture'
+import { prefectureData, regionCodes } from '@/data/prefecture'
 import db from '@/lib/db'
 import { CatCard } from './components/cat-card'
 import { CatFilter } from './components/cat-filter'
-import { CatBreedEnum, PrefectureEnum, SexEnum, type Prisma } from '@prisma/client'
+import { CatBreedEnum, SexEnum, type Prisma } from '@prisma/client'
 import { z } from 'zod'
 import { Pagination } from '@/components/navigation/pagination'
 import { NoCat } from './components/no-cat'
@@ -22,7 +22,7 @@ const CAT_TAKE_NUM = 12
 
 const catFilterSchema = z
   .object({
-    region: z.enum(regions),
+    region: z.enum(regionCodes),
     page: z.coerce.number().min(1).catch(1),
     prefectures: z
       .string()
