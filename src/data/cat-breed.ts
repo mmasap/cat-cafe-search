@@ -24,6 +24,21 @@ export const catBreedObj: CatBreed = {
   [CatBreedEnum.SCOTTISH_FOLD]: {
     name: 'スコティッシュフォールド',
   },
+  [CatBreedEnum.SIBERIAN]: {
+    name: 'サイベリアン',
+  },
+  [CatBreedEnum.SKOOKUM]: {
+    name: 'スクーカム',
+  },
+  [CatBreedEnum.MAINE_COON]: {
+    name: 'メインクーン',
+  },
+  [CatBreedEnum.LAMBKIN]: {
+    name: 'ラムキン',
+  },
+  [CatBreedEnum.RUSSIAN_BLUE]: {
+    name: 'ロシアンブルー',
+  },
   [CatBreedEnum.NORWEGIAN_FOREST_CAT]: {
     name: 'ノルウェージャンフォレストキャット',
   },

@@ -26,6 +26,7 @@ model ShopDetail {
   name            String
   prefecture      PrefectureEnum
   address         String
+  tel             String?
   open            String
   close           String
   lastEntry       String?
@@ -121,11 +122,16 @@ enum CatBreedEnum {
   AMERICAN_SHORT_HAIR
   BRITISH_SHORT_HAIR
   EXOTIC_SHORT_HAIR
+  LAMBKIN
+  MAINE_COON
   MINUET
   MUNCHKIN
   NORWEGIAN_FOREST_CAT
   PERSIAN
+  RUSSIAN_BLUE
   SCOTTISH_FOLD
+  SIBERIAN
+  SKOOKUM
   RAGAMUFFIN
   RAGDOLL
   OTHER

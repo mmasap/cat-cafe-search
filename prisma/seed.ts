@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { createShops } from './seed/shop'
+import { createMocha } from './seed/shop/mocha'
 
 const prisma = new PrismaClient()
 
@@ -8,7 +8,7 @@ async function main() {
   await prisma.cat.deleteMany()
   await prisma.shopDetail.deleteMany()
   await prisma.shop.deleteMany()
-  await createShops()
+  await createMocha()
 }
 
 main()
