@@ -27,11 +27,11 @@ model ShopDetail {
   prefecture      PrefectureEnum
   address         String
   tel             String?
-  open            String
-  close           String
+  open            String?
+  close           String?
   lastEntry       String?
   url             String
-  image           String
+  image           String?
   regularHolidays DayOfWeekEnum[]
   Shop            Shop            @relation(fields: [shopId], references: [id])
   Cat             Cat[]
@@ -119,21 +119,39 @@ enum PrefectureEnum {
 }
 
 enum CatBreedEnum {
+  ABYSSINIAN
+  AMERICAN_CURL
   AMERICAN_SHORT_HAIR
+  BENGAL
   BRITISH_SHORT_HAIR
+  CHARTREUX
+  EGYPTIAN_MAU
+  EXOTIC_LONG_HAIR
   EXOTIC_SHORT_HAIR
+  FOLDEX
+  GENETTA
+  HIMALAYAN
+  KINKALOW
+  LA_PERM
   LAMBKIN
   MAINE_COON
   MINUET
   MUNCHKIN
+  MUNCHKIN_LONG_LEG
   NORWEGIAN_FOREST_CAT
   PERSIAN
-  RUSSIAN_BLUE
-  SCOTTISH_FOLD
-  SIBERIAN
-  SKOOKUM
   RAGAMUFFIN
   RAGDOLL
+  RUSSIAN_BLUE
+  SCOTTISH_FOLD
+  SCOTTISH_STRAIGHT
+  SELKIRK_REX
+  SIBERIAN
+  SINGAPURA
+  SKOOKUM
+  SOMALI
+  TIGRETT
+  TONKINESE
   OTHER
 }
 

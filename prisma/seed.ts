@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { createMocha } from './seed/shop/mocha'
+import { createMocha } from './seed/mocha'
 
 const prisma = new PrismaClient()
 

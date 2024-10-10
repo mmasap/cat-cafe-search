@@ -23,7 +23,7 @@ interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const CatCard = ({ cat }: CatCardProps) => {
-  const catBreedName = catBreedObj[cat.catBreed].name
+  const catBreedName = catBreedObj[cat.catBreed]?.name
   return (
     <Dialog>
       <DialogTrigger>
@@ -43,7 +43,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
 }
 
 const CatDialogContent = ({ cat }: CatCardProps) => {
-  const catBreedName = catBreedObj[cat.catBreed].name
+  const catBreedName = catBreedObj[cat.catBreed]?.name
   return (
     <DialogContent className="w-11/12" showClose={false}>
       <DialogHeader className="hidden">
