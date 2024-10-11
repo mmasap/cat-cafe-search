@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { catBreedObj } from '@/data/cat-breed'
+import { CAT_BREED_LIST } from '@/data/cat-breed'
 import {
   Dialog,
   DialogContent,
@@ -120,30 +120,40 @@ const CatFilterForm = ({ className, form }: { className?: string; form: CatFilte
           render={() => (
             <FormItem>
               <FormLabel className="text-base">猫種</FormLabel>
-              {Object.keys(catBreedObj).map((key) => (
-                <FormField
-                  key={key}
-                  control={form.control}
-                  name="breeds"
-                  render={({ field }) => {
-                    return (
-                      <FormItem key={key} className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(key)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, key])
-                                : field.onChange(field.value?.filter((value) => value !== key))
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{catBreedObj[key].name}</FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
-              ))}
+              {[...CAT_BREED_LIST]
+                .sort((a, b) => {
+                  if (a.name === 'その他' || b.name === 'その他') return 1
+                  return (a.name.codePointAt(0) ?? 0) - (b.name.codePointAt(0) ?? 0)
+                })
+                .map((catBreed) => (
+                  <FormField
+                    key={catBreed.enum}
+                    control={form.control}
+                    name="breeds"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={catBreed.enum}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(catBreed.enum)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, catBreed.enum])
+                                  : field.onChange(
+                                      field.value?.filter((value) => value !== catBreed.enum),
+                                    )
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">{catBreed.name}</FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))}
             </FormItem>
           )}
         />
@@ -170,31 +180,5 @@ const CatFilterForm = ({ className, form }: { className?: string; form: CatFilte
         />
       </form>
     </Form>
-  )
-}
-
-function select() {
-  return (
-    // <>
-    // <Select value={field.value} onValueChange={field.onChange}>
-    //                   <SelectTrigger className="w-full">
-    //                     <SelectValue />
-    //                   </SelectTrigger>
-    //                   <SelectContent>
-    //                     <SelectGroup>
-    //                       <SelectItem value="hokkaido">北海道</SelectItem>
-    //                       <SelectItem value="tohoku">東北</SelectItem>
-    //                       <SelectItem value="kanto">関東</SelectItem>
-    //                       <SelectItem value="chubu">中部</SelectItem>
-    //                       <SelectItem value="kinki">近畿</SelectItem>
-    //                       <SelectItem value="chugoku">中国</SelectItem>
-    //                       <SelectItem value="shikoku">四国</SelectItem>
-    //                       <SelectItem value="kyushu">九州</SelectItem>
-    //                       <SelectItem value="okinawa">沖縄</SelectItem>
-    //                     </SelectGroup>
-    //                   </SelectContent>
-    //                 </Select>
-    // </>
-    <></>
   )
 }

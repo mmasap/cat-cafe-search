@@ -1,54 +1,140 @@
 import { CatBreedEnum } from '@prisma/client'
 
-type CatBreed = { [key: string]: { name: string } }
-
-export const catBreedObj: CatBreed = {
-  [CatBreedEnum.AMERICAN_SHORT_HAIR]: {
+export const CAT_BREED_LIST = [
+  {
+    enum: CatBreedEnum.ABYSSINIAN,
+    name: 'アビシニアン',
+  },
+  {
+    enum: CatBreedEnum.AMERICAN_CURL,
+    name: 'アメリカンカール',
+  },
+  {
+    enum: CatBreedEnum.AMERICAN_SHORT_HAIR,
     name: 'アメリカンショートヘア',
   },
-  [CatBreedEnum.EXOTIC_SHORT_HAIR]: {
-    name: 'エキゾチックショートヘア',
+  {
+    enum: CatBreedEnum.BENGAL,
+    name: 'ベンガル',
   },
-  [CatBreedEnum.MINUET]: {
-    name: 'ミヌエット',
-  },
-  [CatBreedEnum.MUNCHKIN]: {
-    name: 'マンチカン',
-  },
-  [CatBreedEnum.PERSIAN]: {
-    name: 'ペルシアン',
-  },
-  [CatBreedEnum.BRITISH_SHORT_HAIR]: {
+  {
+    enum: CatBreedEnum.BRITISH_SHORT_HAIR,
     name: 'ブリティッシュショートヘア',
   },
-  [CatBreedEnum.SCOTTISH_FOLD]: {
-    name: 'スコティッシュフォールド',
+  {
+    enum: CatBreedEnum.CHARTREUX,
+    name: 'シャルトリュー',
   },
-  [CatBreedEnum.SIBERIAN]: {
-    name: 'サイベリアン',
+  {
+    enum: CatBreedEnum.EGYPTIAN_MAU,
+    name: 'エジプシャンマウ',
   },
-  [CatBreedEnum.SKOOKUM]: {
-    name: 'スクーカム',
+  {
+    enum: CatBreedEnum.EXOTIC_LONG_HAIR,
+    name: 'エキゾチックロングヘア',
   },
-  [CatBreedEnum.MAINE_COON]: {
-    name: 'メインクーン',
+  {
+    enum: CatBreedEnum.EXOTIC_SHORT_HAIR,
+    name: 'エキゾチックショートヘア',
   },
-  [CatBreedEnum.LAMBKIN]: {
+  {
+    enum: CatBreedEnum.FOLDEX,
+    name: 'フォールデックス',
+  },
+  {
+    enum: CatBreedEnum.GENETTA,
+    name: 'ジェネッタ',
+  },
+  {
+    enum: CatBreedEnum.HIMALAYAN,
+    name: 'ヒマラヤン',
+  },
+  {
+    enum: CatBreedEnum.KINKALOW,
+    name: 'キンカロー',
+  },
+  {
+    enum: CatBreedEnum.LA_PERM,
+    name: 'ラパーム',
+  },
+  {
+    enum: CatBreedEnum.LAMBKIN,
     name: 'ラムキン',
   },
-  [CatBreedEnum.RUSSIAN_BLUE]: {
-    name: 'ロシアンブルー',
+  {
+    enum: CatBreedEnum.MAINE_COON,
+    name: 'メインクーン',
   },
-  [CatBreedEnum.NORWEGIAN_FOREST_CAT]: {
-    name: 'ノルウェージャンフォレストキャット',
+  {
+    enum: CatBreedEnum.MINUET,
+    name: 'ミヌエット',
   },
-  [CatBreedEnum.RAGDOLL]: {
-    name: 'ラグドール',
+  {
+    enum: CatBreedEnum.MUNCHKIN,
+    name: 'マンチカン',
   },
-  [CatBreedEnum.RAGAMUFFIN]: {
+  {
+    enum: CatBreedEnum.MUNCHKIN_LONG_LEG,
+    name: 'マンチカンロングレッグ',
+  },
+  {
+    enum: CatBreedEnum.NORWEGIAN_FOREST_CAT,
+    name: 'ノルウェージャンフォレスト',
+  },
+  {
+    enum: CatBreedEnum.PERSIAN,
+    name: 'ペルシャ',
+  },
+  {
+    enum: CatBreedEnum.RAGAMUFFIN,
     name: 'ラガマフィン',
   },
-  [CatBreedEnum.OTHER]: {
+  {
+    enum: CatBreedEnum.RAGDOLL,
+    name: 'ラグドール',
+  },
+  {
+    enum: CatBreedEnum.RUSSIAN_BLUE,
+    name: 'ロシアンブルー',
+  },
+  {
+    enum: CatBreedEnum.SCOTTISH_FOLD,
+    name: 'スコティッシュフォールド',
+  },
+  {
+    enum: CatBreedEnum.SCOTTISH_STRAIGHT,
+    name: 'スコティッシュストレート',
+  },
+  {
+    enum: CatBreedEnum.SELKIRK_REX,
+    name: 'セルカークレックス',
+  },
+  {
+    enum: CatBreedEnum.SIBERIAN,
+    name: 'サイベリアン',
+  },
+  {
+    enum: CatBreedEnum.SINGAPURA,
+    name: 'シンガプーラ',
+  },
+  {
+    enum: CatBreedEnum.SKOOKUM,
+    name: 'スクーカム',
+  },
+  {
+    enum: CatBreedEnum.SOMALI,
+    name: 'ソマリ',
+  },
+  {
+    enum: CatBreedEnum.TIGRETT,
+    name: 'ティグレット',
+  },
+  {
+    enum: CatBreedEnum.TONKINESE,
+    name: 'トンキニーズ',
+  },
+  {
+    enum: CatBreedEnum.OTHER,
     name: 'その他',
   },
-}
+] as const

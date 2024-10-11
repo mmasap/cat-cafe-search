@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { catBreedObj } from '@/data/cat-breed'
+import { CAT_BREED_LIST } from '@/data/cat-breed'
 
 interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   cat: Cat & {
@@ -23,7 +23,7 @@ interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const CatCard = ({ cat }: CatCardProps) => {
-  const catBreedName = catBreedObj[cat.catBreed]?.name
+  const catBreed = CAT_BREED_LIST.find((breed) => breed.enum === cat.catBreed)
   return (
     <Dialog>
       <DialogTrigger>
@@ -33,7 +33,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
-            <p>{catBreedName}</p>
+            <p className="text-sm">{catBreed?.name ?? 'その他'}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -43,7 +43,8 @@ export const CatCard = ({ cat }: CatCardProps) => {
 }
 
 const CatDialogContent = ({ cat }: CatCardProps) => {
-  const catBreedName = catBreedObj[cat.catBreed]?.name
+  const catBreed = CAT_BREED_LIST.find((breed) => breed.enum === cat.catBreed)
+
   return (
     <DialogContent className="w-11/12" showClose={false}>
       <DialogHeader className="hidden">
@@ -64,7 +65,7 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3">{catBreedName}</div>
+          <div className="col-span-3 text-xs">{catBreed?.name ?? 'その他'}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>
@@ -84,7 +85,7 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
           <div className="text-xs basis-16">店舗</div>
           <div className="col-span-3">
             <a target="_blank" rel="noreferrer" href={cat.ShopDetail.url}>
-              {cat.ShopDetail.Shop.name} {cat.ShopDetail.name}
+              {cat.ShopDetail.name}
             </a>
           </div>
         </div>

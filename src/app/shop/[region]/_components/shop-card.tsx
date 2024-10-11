@@ -21,13 +21,15 @@ export const ShopCard = ({ shopDetail }: ShopCardProps) => {
     <Dialog>
       <DialogTrigger className="w-full">
         <Card className="flex items-center ">
-          <Image
-            src={shopDetail.image}
-            width={200}
-            height={200}
-            alt={shopName}
-            className="object-cover"
-          />
+          {shopDetail.image && (
+            <Image
+              src={shopDetail.image}
+              width={200}
+              height={200}
+              alt={shopName}
+              className="object-cover"
+            />
+          )}
           <CardContent className="p-4 text-left">
             <p className="text-xl">{shopName}</p>
             <p>{shopDetail.address}</p>
@@ -49,13 +51,15 @@ const CafeDialogContent = ({
   const shopName = `${shopDetail.Shop.name} ${shopDetail.name}`
   return (
     <DialogContent className="w-11/12" showClose={false}>
-      <Image
-        src={shopDetail.image}
-        alt={shopDetail.name}
-        width={300}
-        height={300}
-        className="object-cover mx-auto"
-      />
+      {shopDetail.image && (
+        <Image
+          src={shopDetail.image}
+          alt={shopDetail.name}
+          width={300}
+          height={300}
+          className="object-cover mx-auto"
+        />
+      )}
       <div className="space-y-2">
         <div className="flex items-center">
           <div className="text-xs w-16">名前</div>
