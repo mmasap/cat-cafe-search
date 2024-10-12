@@ -1,3 +1,5 @@
+'use client'
+
 import type { Cat, Shop, ShopDetail, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
@@ -14,7 +16,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { CAT_BREED_LIST } from '@/data/cat-breed'
 
-interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
+type CatCardProps = {
   cat: Cat & {
     ShopDetail: ShopDetail & {
       Shop: Shop
@@ -42,8 +44,6 @@ export const CatCard = ({ cat }: CatCardProps) => {
 }
 
 const CatDialogContent = ({ cat }: CatCardProps) => {
-  const catBreed = CAT_BREED_LIST.find((breed) => breed.enum === cat.catBreed)
-
   return (
     <DialogContent className="w-11/12" showClose={false}>
       <DialogHeader className="hidden">
