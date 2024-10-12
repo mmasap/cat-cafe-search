@@ -64,7 +64,7 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3 text-xs">{getCatBreedName(cat)}</div>
+          <div className="col-span-3">{getCatBreedName(cat)}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>
@@ -83,7 +83,12 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         <div className="flex items-center">
           <div className="text-xs basis-16">店舗</div>
           <div className="col-span-3">
-            <a target="_blank" rel="noreferrer" href={cat.ShopDetail.url}>
+            <a
+              className="text-[#1d3994] hover:underline"
+              target="_blank"
+              rel="noreferrer"
+              href={cat.ShopDetail.url}
+            >
               {cat.ShopDetail.name}
             </a>
           </div>
