@@ -41,12 +41,13 @@ model Cat {
   id           Int          @id @default(autoincrement())
   shopDetailId Int
   name         String
+  catBreed     CatBreedEnum
+  mix          Boolean      @default(false)
   sex          SexEnum
   birthDate    DateTime
   image        String
   youtube      String?
   instagram    String?
-  catBreed     CatBreedEnum
   ShopDetail   ShopDetail   @relation(fields: [shopDetailId], references: [id])
   CatImage     CatImage[]
 }

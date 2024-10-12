@@ -23,7 +23,6 @@ interface CatCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const CatCard = ({ cat }: CatCardProps) => {
-  const catBreed = CAT_BREED_LIST.find((breed) => breed.enum === cat.catBreed)
   return (
     <Dialog>
       <DialogTrigger>
@@ -33,7 +32,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
-            <p className="text-sm">{catBreed?.name ?? 'その他'}</p>
+            <p className="text-sm">{getCatBreedName(cat)}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -65,7 +64,7 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">猫種</div>
-          <div className="col-span-3 text-xs">{catBreed?.name ?? 'その他'}</div>
+          <div className="col-span-3 text-xs">{getCatBreedName(cat)}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs basis-16">性別</div>
@@ -138,4 +137,12 @@ function getSexName(sexEnum: SexEnum) {
     default:
       return '不明'
   }
+}
+
+function getCatBreedName(cat: Cat) {
+  const catBreed = CAT_BREED_LIST.find((breed) => breed.enum === cat.catBreed)
+  if (!catBreed) {
+    return 'その他'
+  }
+  return catBreed.name + (cat.mix ? 'MIX' : '')
 }

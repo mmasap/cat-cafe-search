@@ -83,6 +83,7 @@ async function createShopDetail({
       sex: sex === 'おとこのこ' ? SexEnum.MALE : SexEnum.FEMALE,
       birthDate: new Date(year, month - 1, day),
       catBreed: getCatBreedEnum(breed),
+      mix: breed.includes('MIX') || breed.includes('x'),
       image: `https://catmocha.jp${image}`,
       youtube,
       instagram,
@@ -201,6 +202,7 @@ function getCatBreedEnum(breed: string): CatBreedEnum {
     case 'ミヌエット':
       return CatBreedEnum.MINUET
     case 'メインクーン':
+    case 'メインクーン×ミヌエット':
       return CatBreedEnum.MAINE_COON
     case 'マンチカン':
       return CatBreedEnum.MUNCHKIN
@@ -218,8 +220,7 @@ function getCatBreedEnum(breed: string): CatBreedEnum {
       return CatBreedEnum.LAMBKIN
     case 'ロシアンブルー':
       return CatBreedEnum.RUSSIAN_BLUE
-    case 'メインクーン×ミヌエット':
-      return CatBreedEnum.OTHER
+
     default:
       throw new Error(`CatBreedEnum undefined: ${breed}`)
   }
