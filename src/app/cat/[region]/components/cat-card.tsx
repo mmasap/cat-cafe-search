@@ -30,7 +30,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
       <DialogTrigger>
         <Card>
           <div className="relative h-40">
-            <Image src={cat.image} alt={cat.name} fill className="object-cover" />
+            <Image src={cat.image} alt={cat.name} fill sizes="auto" className="object-cover" />
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>

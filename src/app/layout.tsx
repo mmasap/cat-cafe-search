@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="ja">
       <body className={inter.className}>
         <div className="flex min-h-screen w-full flex-col">
-          <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background">
+          <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background z-10">
             <nav className="gap-6 font-medium flex flex-row items-center text-sm lg:gap-6 max-w-6xl w-full mx-auto">
               <Link href="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
                 <Package2 className="h-6 w-6" />
