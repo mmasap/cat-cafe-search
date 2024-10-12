@@ -5,18 +5,11 @@ import * as cheerio from 'cheerio'
 const BASE_URL = 'https://catmocha.jp' as const
 
 export async function createMocha() {
-  const { id: shopId } = await prisma.shop.create({
-    data: {
-      name: '猫カフェMOCHA',
-      url: BASE_URL,
-    },
-  })
   const $ = await cheerio.fromURL(`${BASE_URL}/shoplist/`)
 
   ;[...Array(5).keys()].map((i) => {
     $(`#content${i + 1} .shop_link_box`).map((_, el) => {
-      createShopDetail({
-        shopId,
+      createShop({
         path: $(el).find('a').attr('href'),
         img: $(el).find('img').attr('src'),
       })
@@ -24,15 +17,7 @@ export async function createMocha() {
   })
 }
 
-async function createShopDetail({
-  shopId,
-  path,
-  img,
-}: {
-  shopId: number
-  path?: string
-  img?: string
-}) {
+async function createShop({ path, img }: { path?: string; img?: string }) {
   if (!path) return
 
   const $ = await cheerio.fromURL(`https://catmocha.jp${path}`)
@@ -46,9 +31,8 @@ async function createShopDetail({
     .text()
     .match(/\d+:\d+/g)
 
-  const { id: shopDetailId } = await prisma.shopDetail.create({
+  const { id: shopId } = await prisma.shop.create({
     data: {
-      shopId,
       name: shopName,
       address,
       tel,
@@ -78,7 +62,7 @@ async function createShopDetail({
       .map((_, el) => $(el).attr('href'))
 
     cats.push({
-      shopDetailId,
+      shopId: shopId,
       name: $(el).find('.cat_name').text().trim(),
       sex: sex === 'おとこのこ' ? SexEnum.MALE : SexEnum.FEMALE,
       birthDate: new Date(year, month - 1, day),

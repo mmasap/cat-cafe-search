@@ -92,7 +92,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
 function createCatWhere(catFilter: z.infer<typeof catFilterSchema>): Prisma.CatWhereInput {
   return {
-    ShopDetail: {
+    Shop: {
       prefecture: {
         in: catFilter.prefectures,
       },
@@ -112,9 +112,7 @@ function getCats(where: Prisma.CatWhereInput, page: number) {
   return db.cat.findMany({
     where,
     include: {
-      ShopDetail: {
-        include: { Shop: true },
-      },
+      Shop: true,
     },
     take: CAT_TAKE_NUM,
     skip: (page - 1) * CAT_TAKE_NUM,

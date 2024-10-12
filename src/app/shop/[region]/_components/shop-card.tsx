@@ -1,4 +1,4 @@
-import { Cat, type Shop, type ShopDetail } from '@prisma/client'
+import type { Shop } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -11,50 +11,40 @@ import {
 import { Button } from '@/components/ui/button'
 
 interface ShopCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  shopDetail: ShopDetail & {
-    Shop: Shop
-  }
+  shop: Shop
 }
-export const ShopCard = ({ shopDetail }: ShopCardProps) => {
-  const shopName = `${shopDetail.Shop.name} ${shopDetail.name}`
+export const ShopCard = ({ shop }: ShopCardProps) => {
   return (
     <Dialog>
       <DialogTrigger className="w-full">
         <Card className="flex items-center ">
-          {shopDetail.image && (
+          {shop.image && (
             <Image
-              src={shopDetail.image}
+              src={shop.image}
               width={200}
               height={200}
-              alt={shopName}
+              alt={shop.name}
               className="object-cover"
             />
           )}
           <CardContent className="p-4 text-left">
-            <p className="text-xl">{shopName}</p>
-            <p>{shopDetail.address}</p>
+            <p className="text-xl">{shop.name}</p>
+            <p>{shop.address}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
-      <CafeDialogContent shopDetail={shopDetail} />
+      <CafeDialogContent shop={shop} />
     </Dialog>
   )
 }
 
-const CafeDialogContent = ({
-  shopDetail,
-}: {
-  shopDetail: ShopDetail & {
-    Shop: Shop
-  }
-}) => {
-  const shopName = `${shopDetail.Shop.name} ${shopDetail.name}`
+const CafeDialogContent = ({ shop }: { shop: Shop }) => {
   return (
     <DialogContent className="w-11/12" showClose={false}>
-      {shopDetail.image && (
+      {shop.image && (
         <Image
-          src={shopDetail.image}
-          alt={shopDetail.name}
+          src={shop.image}
+          alt={shop.name}
           width={300}
           height={300}
           className="object-cover mx-auto"
@@ -63,11 +53,11 @@ const CafeDialogContent = ({
       <div className="space-y-2">
         <div className="flex items-center">
           <div className="text-xs w-16">名前</div>
-          <div className="col-span-3">{shopName}</div>
+          <div className="col-span-3">{shop.name}</div>
         </div>
         <div className="flex items-center">
           <div className="text-xs w-16">住所</div>
-          <div className="col-span-3">{shopDetail.address}</div>
+          <div className="col-span-3">{shop.address}</div>
         </div>
       </div>
       <DialogFooter>

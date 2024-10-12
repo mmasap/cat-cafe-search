@@ -14,15 +14,7 @@ datasource db {
 }
 
 model Shop {
-  id         Int          @id @default(autoincrement())
-  name       String
-  url        String
-  ShopDetail ShopDetail[]
-}
-
-model ShopDetail {
   id              Int             @id @default(autoincrement())
-  shopId          Int
   name            String
   prefecture      PrefectureEnum
   address         String
@@ -33,23 +25,22 @@ model ShopDetail {
   url             String
   image           String?
   regularHolidays DayOfWeekEnum[]
-  Shop            Shop            @relation(fields: [shopId], references: [id])
   Cat             Cat[]
 }
 
 model Cat {
-  id           Int          @id @default(autoincrement())
-  shopDetailId Int
-  name         String
-  catBreed     CatBreedEnum
-  mix          Boolean      @default(false)
-  sex          SexEnum
-  birthDate    DateTime
-  image        String
-  youtube      String?
-  instagram    String?
-  ShopDetail   ShopDetail   @relation(fields: [shopDetailId], references: [id])
-  CatImage     CatImage[]
+  id        Int          @id @default(autoincrement())
+  shopId    Int
+  name      String
+  catBreed  CatBreedEnum
+  mix       Boolean      @default(false)
+  sex       SexEnum
+  birthDate DateTime
+  image     String
+  youtube   String?
+  instagram String?
+  Shop      Shop         @relation(fields: [shopId], references: [id])
+  CatImage  CatImage[]
 }
 
 model CatImage {

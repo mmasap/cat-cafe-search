@@ -1,6 +1,6 @@
 'use client'
 
-import type { Cat, Shop, ShopDetail, SexEnum } from '@prisma/client'
+import type { Cat, Shop, SexEnum } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -18,9 +18,7 @@ import { CAT_BREED_LIST } from '@/data/cat-breed'
 
 type CatCardProps = {
   cat: Cat & {
-    ShopDetail: ShopDetail & {
-      Shop: Shop
-    }
+    Shop: Shop
   }
 }
 
@@ -93,9 +91,9 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
               className="text-[#1d3994] hover:underline"
               target="_blank"
               rel="noreferrer"
-              href={cat.ShopDetail.url}
+              href={cat.Shop.url}
             >
-              {cat.ShopDetail.name}
+              {cat.Shop.name}
             </a>
           </div>
         </div>

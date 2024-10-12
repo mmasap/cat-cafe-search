@@ -6,7 +6,6 @@ const prisma = new PrismaClient()
 async function main() {
   await prisma.catImage.deleteMany()
   await prisma.cat.deleteMany()
-  await prisma.shopDetail.deleteMany()
   await prisma.shop.deleteMany()
   await createMocha()
 }

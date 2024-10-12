@@ -31,14 +31,11 @@ export default async function Page({
 
   if (!prefectures) redirect('/shop')
 
-  const shopDetails = await db.shopDetail.findMany({
+  const shops = await db.shop.findMany({
     where: {
       prefecture: {
         in: prefectures.map((prefecture) => prefecture.enum),
       },
-    },
-    include: {
-      Shop: true,
     },
   })
 
@@ -49,8 +46,8 @@ export default async function Page({
           <ShopFilter />
         </div>
         <div className="col-span-12 md:col-span-8 lg:col-span-9 space-y-4">
-          {shopDetails.map((shopDetail) => (
-            <ShopCard key={shopDetail.id} shopDetail={shopDetail} />
+          {shops.map((shop) => (
+            <ShopCard key={shop.id} shop={shop} />
           ))}
         </div>
       </div>
