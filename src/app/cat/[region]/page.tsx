@@ -12,9 +12,10 @@ import { NoCat } from './components/no-cat'
 type PageProps = {
   params: { region: string }
   searchParams: {
-    page: number | undefined
-    catBreeds: string | string[] | undefined
+    catBreeds: string | undefined
     catSex: string | undefined
+    page: number | undefined
+    prefectures: string | undefined
   }
 }
 
@@ -60,9 +61,8 @@ const catFilterSchema = z
 export default async function Page({ params, searchParams }: PageProps) {
   try {
     const catFilter = catFilterSchema.parse({ ...params, ...searchParams })
-    const catWhere = createCatWhere(catFilter)
-    const catCount = await getCatCount(catWhere)
-    const cats = await getCats(catWhere, catFilter.page)
+    const catCount = await getCatCount(catFilter)
+    const cats = await getCats(catFilter)
 
     return (
       <ContentLayout title="猫検索">
@@ -90,6 +90,19 @@ export default async function Page({ params, searchParams }: PageProps) {
   }
 }
 
+async function getCatCount(filter: z.infer<typeof catFilterSchema>) {
+  return await db.cat.count({ where: createCatWhere(filter) })
+}
+
+async function getCats(filter: z.infer<typeof catFilterSchema>) {
+  return await db.cat.findMany({
+    where: createCatWhere(filter),
+    include: { Shop: true },
+    take: CAT_TAKE_NUM,
+    skip: (filter.page - 1) * CAT_TAKE_NUM,
+  })
+}
+
 function createCatWhere(catFilter: z.infer<typeof catFilterSchema>): Prisma.CatWhereInput {
   return {
     Shop: {
@@ -102,19 +115,4 @@ function createCatWhere(catFilter: z.infer<typeof catFilterSchema>): Prisma.CatW
     },
     sex: catFilter.sex,
   }
-}
-
-function getCatCount(where: Prisma.CatWhereInput) {
-  return db.cat.count({ where })
-}
-
-function getCats(where: Prisma.CatWhereInput, page: number) {
-  return db.cat.findMany({
-    where,
-    include: {
-      Shop: true,
-    },
-    take: CAT_TAKE_NUM,
-    skip: (page - 1) * CAT_TAKE_NUM,
-  })
 }

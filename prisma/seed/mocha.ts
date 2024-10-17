@@ -7,20 +7,22 @@ const BASE_URL = 'https://catmocha.jp' as const
 export async function createMocha() {
   const $ = await cheerio.fromURL(`${BASE_URL}/shoplist/`)
 
-  ;[...Array(5).keys()].map((i) => {
-    $(`#content${i + 1} .shop_link_box`).map((_, el) => {
+  for (let i = 1; i <= 5; i++) {
+    $(`#content${i} .shop_link_box`).map((_, el) => {
+      const href = $(el).find('a').attr('href')
+      const imgSrc = $(el).find('img').attr('src')
+      if (!href) return
+
       createShop({
-        path: $(el).find('a').attr('href'),
-        img: $(el).find('img').attr('src'),
+        url: BASE_URL + href,
+        image: imgSrc ? BASE_URL + imgSrc : undefined,
       })
     })
-  })
+  }
 }
 
-async function createShop({ path, img }: { path?: string; img?: string }) {
-  if (!path) return
-
-  const $ = await cheerio.fromURL(`https://catmocha.jp${path}`)
+async function createShop({ url, image }: { url: string; image?: string }) {
+  const $ = await cheerio.fromURL(url)
   const cats: Prisma.CatCreateManyInput[] = []
 
   const $company_info_child = $('.company_info_child')
@@ -39,8 +41,8 @@ async function createShop({ path, img }: { path?: string; img?: string }) {
       open: openingHours?.[0],
       close: openingHours?.[1],
       lastEntry: openingHours?.[2],
-      url: `https://catmocha.jp${path}`,
-      image: img,
+      url,
+      image,
       prefecture: getPrefectureEnum(address),
     },
   })

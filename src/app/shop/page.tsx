@@ -11,7 +11,7 @@ export default function Page() {
 
   function handleMapClick(prefCode: number) {
     const prefecture = prefectureData.find((pref) => pref.code === prefCode)
-    router.push(`${pathname}/${prefecture?.enum.toLowerCase()}`)
+    router.push(`${pathname}/${prefecture?.region}`)
   }
 
   return (
