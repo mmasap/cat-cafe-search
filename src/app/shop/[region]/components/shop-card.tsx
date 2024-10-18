@@ -17,7 +17,7 @@ export const ShopCard = ({ shop }: ShopCardProps) => {
   return (
     <Dialog>
       <DialogTrigger className="w-full">
-        <Card className="flex items-center ">
+        <Card className="flex items-center">
           {shop.image && (
             <Image
               src={shop.image}
@@ -28,8 +28,8 @@ export const ShopCard = ({ shop }: ShopCardProps) => {
             />
           )}
           <CardContent className="p-4 text-left">
-            <p className="text-xl">{shop.name}</p>
-            <p>{shop.address}</p>
+            <div className="text-xl">{shop.name}</div>
+            <div>{shop.address}</div>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -52,12 +52,37 @@ const CafeDialogContent = ({ shop }: { shop: Shop }) => {
       )}
       <div className="space-y-2">
         <div className="flex items-center">
-          <div className="text-xs w-16">名前</div>
-          <div className="col-span-3">{shop.name}</div>
+          <div className="text-xs basis-20">名前</div>
+          <div>{shop.name}</div>
         </div>
         <div className="flex items-center">
-          <div className="text-xs w-16">住所</div>
-          <div className="col-span-3">{shop.address}</div>
+          <div className="text-xs basis-20 flex-shrink-0">住所</div>
+          <div>{shop.address}</div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-xs basis-20 flex-shrink-0">営業時間</div>
+          <div>
+            {shop.open} - {shop.close}
+          </div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-xs basis-20 flex-shrink-0">電話番号</div>
+          <div>{shop.tel}</div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-xs basis-20 flex-shrink-0">定休日</div>
+          <div>{shop.regularHolidays.length > 0 ? shop.regularHolidays.join(' ') : 'なし'}</div>
+        </div>
+        <div className="flex items-center">
+          <div className="text-xs basis-20 flex-shrink-0">URL</div>
+          <a
+            className="text-[#1d3994] hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={shop.url}
+          >
+            {shop.url}
+          </a>
         </div>
       </div>
       <DialogFooter>

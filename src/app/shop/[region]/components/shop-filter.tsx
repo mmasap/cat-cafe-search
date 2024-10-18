@@ -1,6 +1,5 @@
 'use client'
 
-import type { CatBreedEnum } from '@prisma/client'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { prefectureData, regions } from '@/data/prefecture'
 import { useShopFilterForm } from '../hooks/use-shop-filter'

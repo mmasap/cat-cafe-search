@@ -7,7 +7,7 @@ import { ShopFilter } from './components/shop-filter'
 import { z } from 'zod'
 import { Pagination } from '@/components/navigation/pagination'
 
-const SHOP_TAKE_NUM = 12
+const SHOP_TAKE_NUM = 6
 
 type PageProps = {
   params: { region: string }
@@ -55,9 +55,9 @@ export default async function Page({ params, searchParams }: PageProps) {
             {shops.map((shop) => (
               <ShopCard key={shop.id} shop={shop} />
             ))}
+            <Pagination totalPages={Math.ceil(shopCount / SHOP_TAKE_NUM)} />
           </div>
         </div>
-        <Pagination totalPages={Math.ceil(shopCount / SHOP_TAKE_NUM)} />
       </ContentLayout>
     )
   } catch (error) {
