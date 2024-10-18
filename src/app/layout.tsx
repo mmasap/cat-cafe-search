@@ -27,8 +27,7 @@ export default function RootLayout({
           <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background z-10">
             <nav className="gap-6 font-medium flex flex-row items-center text-sm lg:gap-6 max-w-6xl w-full mx-auto">
               <Link href="/" className="flex items-center gap-2 text-lg font-semibold md:text-base">
-                <Package2 className="h-6 w-6" />
-                <span className="sr-only">Acme Inc</span>
+                <span className="p-2">猫カフェ検索</span>
               </Link>
               <Link
                 href="/shop"
