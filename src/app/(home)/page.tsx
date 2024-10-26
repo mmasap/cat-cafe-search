@@ -1,18 +1,46 @@
 import db from '@/lib/db'
 import { getBirthCats as getBirthCatsSql } from '@prisma/client/sql'
 import { CatCard } from '../cat/[region]/components/cat-card'
-import { ContentLayout } from '@/components/layout/content-layout'
+import * as Icon from 'lucide-react'
+import Link from 'next/link'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function Home() {
   const birthCats = await getBirthCats()
   return (
-    <ContentLayout title="猫検索">
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-        {birthCats.map((cat) => (
-          <CatCard key={cat.id} cat={cat} />
-        ))}
-      </div>
-    </ContentLayout>
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>検索</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-6 grid-cols-2">
+          <Link
+            href="/cat"
+            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+          >
+            <Icon.Cat className="mb-3 h-6 w-6" />
+            猫検索
+          </Link>
+          <Link
+            href="/cat"
+            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+          >
+            <Icon.Store className="mb-3 h-6 w-6" />
+            店舗検索
+          </Link>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>今月の猫</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-6 grid-cols-2">
+          {birthCats.map((cat) => (
+            <CatCard key={cat.id} cat={cat} />
+          ))}
+        </CardContent>
+      </Card>
+    </>
   )
 }
 
