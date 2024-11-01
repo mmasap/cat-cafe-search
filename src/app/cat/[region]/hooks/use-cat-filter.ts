@@ -42,7 +42,7 @@ export const useCatFilterForm = () => {
       params.delete('page')
       if (info.name === 'region' && info.type === 'change') {
         params.delete('prefectures')
-        router.push(`${value.region}/?${params.toString()}`, { scroll: false })
+        router.push(`/cat/${value.region}/?${params.toString()}`, { scroll: false })
         return
       }
       if (value.breeds && value.breeds.length > 0) {

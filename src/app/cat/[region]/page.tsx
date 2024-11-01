@@ -58,12 +58,14 @@ const catFilterSchema = z
     }
   })
 
-export default async function Page({ params, searchParams }: PageProps) {
-  try {
-    const catFilter = catFilterSchema.parse({ ...params, ...searchParams })
-    const catCount = await getCatCount(catFilter)
-    const cats = await getCats(catFilter)
+export function generateStaticParams() {
+  return regionCodes.map((region) => ({ region }))
+}
 
+export default async function Page({ params }: PageProps) {
+  try {
+    const catFilter = catFilterSchema.parse({ ...params })
+    const filteredCats = await getFilteredCats(catFilter)
     return (
       <ContentLayout title="猫検索">
         <div className="grid grid-cols-12 gap-4">
@@ -71,15 +73,17 @@ export default async function Page({ params, searchParams }: PageProps) {
             <CatFilter />
           </div>
           <div className="col-span-12 md:col-span-8 lg:col-span-9 space-y-4">
-            {cats.length === 0 && <NoCat />}
-            {cats.length > 0 && (
+            {filteredCats.length === 0 && <NoCat />}
+            {filteredCats.length > 0 && (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {cats.map((cat) => (
-                  <CatCard key={cat.id} cat={cat} />
-                ))}
+                {filteredCats
+                  .splice((catFilter.page - 1) * CAT_TAKE_NUM, CAT_TAKE_NUM)
+                  .map((cat) => (
+                    <CatCard key={cat.id} cat={cat} />
+                  ))}
               </div>
             )}
-            <Pagination totalPages={Math.ceil(catCount / CAT_TAKE_NUM)} />
+            <Pagination totalPages={Math.ceil(filteredCats.length / CAT_TAKE_NUM)} />
           </div>
         </div>
       </ContentLayout>
@@ -90,29 +94,22 @@ export default async function Page({ params, searchParams }: PageProps) {
   }
 }
 
-async function getCatCount(filter: z.infer<typeof catFilterSchema>) {
-  return await db.cat.count({ where: createCatWhere(filter) })
-}
-
-async function getCats(filter: z.infer<typeof catFilterSchema>) {
-  return await db.cat.findMany({
-    where: createCatWhere(filter),
-    include: { Shop: true },
-    take: CAT_TAKE_NUM,
-    skip: (filter.page - 1) * CAT_TAKE_NUM,
-  })
-}
-
-function createCatWhere(catFilter: z.infer<typeof catFilterSchema>): Prisma.CatWhereInput {
-  return {
-    Shop: {
-      prefecture: {
-        in: catFilter.prefectures,
+async function getFilteredCats(filter: z.infer<typeof catFilterSchema>) {
+  const prefectureCats = await db.cat.findMany({
+    where: {
+      Shop: {
+        prefecture: {
+          in: filter.prefectures,
+        },
       },
     },
-    catBreed: {
-      in: catFilter.breeds,
-    },
-    sex: catFilter.sex,
-  }
+    include: { Shop: true },
+  })
+
+  return prefectureCats.filter((cat) => {
+    if (filter.breeds && !filter.breeds.includes(cat.catBreed)) return false
+    if (filter.sex && filter.sex !== cat.sex) return false
+    if (!filter.prefectures.includes(cat.Shop.prefecture)) return false
+    return true
+  })
 }
