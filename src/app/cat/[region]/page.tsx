@@ -58,13 +58,13 @@ const catFilterSchema = z
     }
   })
 
-export function generateStaticParams() {
-  return regionCodes.map((region) => ({ region }))
-}
+// export function generateStaticParams() {
+//   return regionCodes.map((region) => ({ region }))
+// }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params, searchParams }: PageProps) {
   try {
-    const catFilter = catFilterSchema.parse({ ...params })
+    const catFilter = catFilterSchema.parse({ ...params, ...searchParams })
     const filteredCats = await getFilteredCats(catFilter)
     return (
       <ContentLayout title="猫検索">

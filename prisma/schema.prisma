@@ -37,7 +37,7 @@ model Cat {
   mix       Boolean      @default(false)
   sex       SexEnum
   birthDate DateTime
-  image     String
+  image     String?
   youtube   String?
   instagram String?
   Shop      Shop         @relation(fields: [shopId], references: [id])

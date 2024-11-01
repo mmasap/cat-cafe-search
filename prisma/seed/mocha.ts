@@ -1,6 +1,7 @@
 import prisma from '@/lib/db'
 import { CatBreedEnum, PrefectureEnum, SexEnum, type Prisma } from '@prisma/client'
 import * as cheerio from 'cheerio'
+import { downloadImage } from './util/image'
 
 const BASE_URL = 'https://catmocha.jp' as const
 
@@ -8,22 +9,21 @@ export async function createMocha() {
   const $ = await cheerio.fromURL(`${BASE_URL}/shoplist/`)
 
   for (let i = 1; i <= 5; i++) {
-    $(`#content${i} .shop_link_box`).map((_, el) => {
+    for (const el of $(`#content${i} .shop_link_box`).toArray()) {
       const href = $(el).find('a').attr('href')
       const imgSrc = $(el).find('img').attr('src')
       if (!href) return
 
-      createShop({
-        url: BASE_URL + href,
-        image: imgSrc ? BASE_URL + imgSrc : undefined,
+      await createShop({
+        shopUrl: BASE_URL + href,
+        shopImage: imgSrc ? BASE_URL + imgSrc : undefined,
       })
-    })
+    }
   }
 }
 
-async function createShop({ url, image }: { url: string; image?: string }) {
-  const $ = await cheerio.fromURL(url)
-  const cats: Prisma.CatCreateManyInput[] = []
+async function createShop({ shopUrl, shopImage }: { shopUrl: string; shopImage?: string }) {
+  const $ = await cheerio.fromURL(shopUrl)
 
   const $company_info_child = $('.company_info_child')
   const shopName = $($company_info_child[1]).find('p').text().trim()
@@ -41,13 +41,13 @@ async function createShop({ url, image }: { url: string; image?: string }) {
       open: openingHours?.[0],
       close: openingHours?.[1],
       lastEntry: openingHours?.[2],
-      url,
-      image,
+      url: shopUrl,
+      image: await downloadImage(shopImage),
       prefecture: getPrefectureEnum(address),
     },
   })
 
-  $('.cat_box').map((_, el) => {
+  for (const el of $('.cat_box').toArray()) {
     const [sex, breed, birthDate] = $(el)
       .find('.cat_data')
       .text()
@@ -58,25 +58,25 @@ async function createShop({ url, image }: { url: string; image?: string }) {
       .replace('生まれ', '')
       .split('/')
       .map((v) => +v)
-    const image = $(el).find('img').attr('src')
+    const catImageSrc = $(el).find('img').attr('src')
     const [instagram, youtube] = $(el)
       .find('.cat_sns a')
       .map((_, el) => $(el).attr('href'))
 
-    cats.push({
-      shopId: shopId,
-      name: $(el).find('.cat_name').text().trim(),
-      sex: sex === 'おとこのこ' ? SexEnum.MALE : SexEnum.FEMALE,
-      birthDate: new Date(year, month - 1, day),
-      catBreed: getCatBreedEnum(breed),
-      mix: breed.includes('MIX') || breed.includes('x'),
-      image: `https://catmocha.jp${image}`,
-      youtube,
-      instagram,
+    await prisma.cat.create({
+      data: {
+        shopId: shopId,
+        name: $(el).find('.cat_name').text().trim(),
+        sex: sex === 'おとこのこ' ? SexEnum.MALE : SexEnum.FEMALE,
+        birthDate: new Date(year, month - 1, day),
+        catBreed: getCatBreedEnum(breed),
+        mix: breed.includes('MIX') || breed.includes('x'),
+        image: catImageSrc ? await downloadImage(BASE_URL + catImageSrc) : undefined,
+        youtube,
+        instagram,
+      },
     })
-  })
-
-  await prisma.cat.createMany({ data: cats })
+  }
 }
 
 function getPrefectureEnum(prefecture: string): PrefectureEnum {

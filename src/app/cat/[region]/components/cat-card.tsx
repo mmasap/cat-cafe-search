@@ -28,13 +28,15 @@ export const CatCard = ({ cat }: CatCardProps) => {
       <DialogTrigger>
         <Card>
           <div className="relative h-40">
-            <Image
-              src={cat.image}
-              alt={cat.name}
-              fill
-              sizes="auto"
-              className="rounded-t-lg object-cover"
-            />
+            {cat.image && (
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                sizes="auto"
+                className="rounded-t-lg object-cover"
+              />
+            )}
           </div>
           <CardContent className="p-2">
             <p>{cat.name}</p>
@@ -54,13 +56,15 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
         <DialogTitle>詳細情報</DialogTitle>
         <DialogDescription>猫の詳細情報を表示します</DialogDescription>
       </DialogHeader>
-      <Image
-        src={cat.image}
-        alt={cat.name}
-        width={300}
-        height={300}
-        className="object-cover mx-auto"
-      />
+      {cat.image && (
+        <Image
+          src={cat.image}
+          alt={cat.name}
+          width={300}
+          height={300}
+          className="object-cover mx-auto"
+        />
+      )}
       <div className="space-y-2">
         <div className="flex items-center">
           <div className="text-xs basis-16">名前</div>
