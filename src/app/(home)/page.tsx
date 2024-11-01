@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function Home() {
   const birthCats = await getBirthCats()
-  const showCats = getRandomCats(birthCats)
+  const displayCats = getRandomCats(birthCats)
 
   return (
     <>
@@ -37,7 +37,7 @@ export default async function Home() {
           <CardTitle>今月の猫</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-6 grid-cols-2 md:grid-cols-3">
-          {showCats.map((cat) => (
+          {displayCats.map((cat) => (
             <CatCard key={cat.id} cat={cat} />
           ))}
         </CardContent>
