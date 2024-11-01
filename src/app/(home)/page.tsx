@@ -4,6 +4,7 @@ import { CatCard } from '../cat/[region]/components/cat-card'
 import * as Icon from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CardLink } from './_components/card-link'
 
 export default async function Home() {
   const birthCats = await getBirthCats()
@@ -16,20 +17,14 @@ export default async function Home() {
           <CardTitle>検索</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-6 grid-cols-2">
-          <Link
-            href="/cat"
-            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-          >
+          <CardLink href="/shop">
             <Icon.Store className="mb-3 h-6 w-6" />
-            店舗検索
-          </Link>
-          <Link
-            href="/cat"
-            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-          >
+            <span>店舗検索</span>
+          </CardLink>
+          <CardLink href="/cat">
             <Icon.Cat className="mb-3 h-6 w-6" />
-            猫検索
-          </Link>
+            <span>猫検索</span>
+          </CardLink>
         </CardContent>
       </Card>
       <Card>
