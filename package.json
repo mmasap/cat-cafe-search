@@ -9,7 +9,7 @@
     "lint": "biome lint --write ./src",
     "format:write": "biome format --write .",
     "seed": "tsx prisma/seed.ts",
-    "postinstall": "dotenv -e .env.development.local -- prisma generate --sql",
+    "postinstall": "prisma generate --sql",
     "prisma:generate": "prisma generate --sql",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio"
@@ -42,7 +42,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "cheerio": "^1.0.0",
-    "dotenv-cli": "^7.4.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
     "nanoid": "^5.0.8",
