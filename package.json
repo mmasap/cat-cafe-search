@@ -9,6 +9,7 @@
     "lint": "biome lint --write ./src",
     "format:write": "biome format --write .",
     "seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate --sql",
     "prisma:generate": "prisma generate --sql",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio"
