@@ -58,10 +58,6 @@ const catFilterSchema = z
     }
   })
 
-// export function generateStaticParams() {
-//   return regionCodes.map((region) => ({ region }))
-// }
-
 export default async function Page({ params, searchParams }: PageProps) {
   try {
     const catFilter = catFilterSchema.parse({ ...params, ...searchParams })
