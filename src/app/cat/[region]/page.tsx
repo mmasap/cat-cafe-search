@@ -10,13 +10,13 @@ import { Pagination } from '@/components/navigation/pagination'
 import { NoCat } from './components/no-cat'
 
 type PageProps = {
-  params: { region: string }
-  searchParams: {
-    catBreeds: string | undefined
-    catSex: string | undefined
+  params: Promise<{ region: string }>
+  searchParams: Promise<{
+    breeds: string | undefined
+    sex: string | undefined
     page: number | undefined
     prefectures: string | undefined
-  }
+  }>
 }
 
 const CAT_TAKE_NUM = 12
@@ -60,7 +60,15 @@ const catFilterSchema = z
 
 export default async function Page({ params, searchParams }: PageProps) {
   try {
-    const catFilter = catFilterSchema.parse({ ...params, ...searchParams })
+    const { region } = await params
+    const { breeds, sex, page, prefectures } = await searchParams
+    const catFilter = catFilterSchema.parse({
+      region,
+      breeds,
+      prefectures,
+      sex,
+      page,
+    })
     const filteredCats = await getFilteredCats(catFilter)
     return (
       <ContentLayout title="猫検索">

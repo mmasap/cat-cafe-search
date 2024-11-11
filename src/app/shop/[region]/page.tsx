@@ -10,11 +10,11 @@ import { Pagination } from '@/components/navigation/pagination'
 const SHOP_TAKE_NUM = 6
 
 type PageProps = {
-  params: { region: string }
-  searchParams: {
+  params: Promise<{ region: string }>
+  searchParams: Promise<{
     page: number | undefined
     prefectures: string | undefined
-  }
+  }>
 }
 
 const shopFilterSchema = z
@@ -41,7 +41,9 @@ const shopFilterSchema = z
 
 export default async function Page({ params, searchParams }: PageProps) {
   try {
-    const shopFilter = shopFilterSchema.parse({ ...params, ...searchParams })
+    const { region } = await params
+    const { prefectures, page } = await searchParams
+    const shopFilter = shopFilterSchema.parse({ region, prefectures, page })
     const shopCount = await getShopCount(shopFilter)
     const shops = await getShops(shopFilter)
 
