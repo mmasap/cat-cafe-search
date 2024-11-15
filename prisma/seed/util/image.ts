@@ -1,3 +1,4 @@
+import { put } from '@vercel/blob'
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 
@@ -21,6 +22,10 @@ export async function downloadImage(imageUrl?: string) {
     const res = await fetch(imageUrl)
     const arrayBuffer = await res.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const { url } = await put(`images/${fileName}`, buffer, { access: 'public' })
+      return url
+    }
     fs.writeFileSync(`${storePublicImagePath}/${fileName}`, buffer)
     return `${storeImagePath}/${fileName}`
   } catch (error) {
