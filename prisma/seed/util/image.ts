@@ -6,7 +6,7 @@ const storePublicImagePath = `./public/${storeImagePath}`
 
 export async function downloadImage(imageUrl?: string) {
   try {
-    const imageExtension = imageUrl?.match(/(jpg|jpeg|png)$/i)?.[0]
+    const imageExtension = imageUrl?.split('?')[0]?.match(/(jpg|jpeg|png)$/i)?.[0]
     if (!imageExtension) return imageUrl
 
     if (!fs.existsSync(storePublicImagePath)) {

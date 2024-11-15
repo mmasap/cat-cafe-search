@@ -5,10 +5,14 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 interface ShopCardProps extends React.HTMLAttributes<HTMLDivElement> {
   shop: Shop
@@ -41,6 +45,10 @@ export const ShopCard = ({ shop }: ShopCardProps) => {
 const CafeDialogContent = ({ shop }: { shop: Shop }) => {
   return (
     <DialogContent className="w-11/12" showClose={false}>
+      <VisuallyHidden>
+        <DialogTitle>詳細</DialogTitle>
+        <DialogDescription>詳細</DialogDescription>
+      </VisuallyHidden>
       {shop.image && (
         <Image
           src={shop.image}
