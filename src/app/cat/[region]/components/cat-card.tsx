@@ -29,13 +29,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
         <Card>
           <div className="relative h-40">
             {cat.image && (
-              <Image
-                src={cat.image}
-                alt={cat.name}
-                fill
-                sizes="auto"
-                className="rounded-t-lg object-cover"
-              />
+              <Image src={cat.image} alt={cat.name} fill className="rounded-t-lg object-cover" />
             )}
           </div>
           <CardContent className="p-2">

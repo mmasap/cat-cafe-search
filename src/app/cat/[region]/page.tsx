@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
 import { prefectureData, regionCodes } from '@/data/prefecture'
-import db from '@/lib/db'
 import { CatCard } from './components/cat-card'
 import { CatFilter } from './components/cat-filter'
 import { CatBreedEnum, SexEnum, type Prisma } from '@prisma/client'
 import { z } from 'zod'
 import { Pagination } from '@/components/navigation/pagination'
 import { NoCat } from './components/no-cat'
+import { getRegionCats } from '@/features/cats/server/db'
 
 type PageProps = {
   params: Promise<{ region: string }>
@@ -60,15 +60,7 @@ const catFilterSchema = z
 
 export default async function Page({ params, searchParams }: PageProps) {
   try {
-    const { region } = await params
-    const { breeds, sex, page, prefectures } = await searchParams
-    const catFilter = catFilterSchema.parse({
-      region,
-      breeds,
-      prefectures,
-      sex,
-      page,
-    })
+    const catFilter = catFilterSchema.parse({ ...(await params), ...(await searchParams) })
     const filteredCats = await getFilteredCats(catFilter)
     return (
       <ContentLayout title="猫検索">
@@ -99,18 +91,8 @@ export default async function Page({ params, searchParams }: PageProps) {
 }
 
 async function getFilteredCats(filter: z.infer<typeof catFilterSchema>) {
-  const prefectureCats = await db.cat.findMany({
-    where: {
-      Shop: {
-        prefecture: {
-          in: filter.prefectures,
-        },
-      },
-    },
-    include: { Shop: true },
-  })
-
-  return prefectureCats.filter((cat) => {
+  const regionCats = await getRegionCats(filter.region)
+  return regionCats.filter((cat) => {
     if (filter.breeds && !filter.breeds.includes(cat.catBreed)) return false
     if (filter.sex && filter.sex !== cat.sex) return false
     if (!filter.prefectures.includes(cat.Shop.prefecture)) return false
