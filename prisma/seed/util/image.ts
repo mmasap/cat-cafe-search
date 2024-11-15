@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 
 const storeImagePath = '/static/images'
@@ -12,7 +12,11 @@ export async function downloadImage(imageUrl?: string) {
     if (!fs.existsSync(storePublicImagePath)) {
       fs.mkdirSync(storePublicImagePath, { recursive: true })
     }
-    const fileName = `${nanoid()}.${imageExtension}`
+    const hash = crypto.createHash('md5').update(imageUrl).digest('hex')
+    const fileName = `${hash}.${imageExtension}`
+    if (fs.existsSync(`${storePublicImagePath}/${fileName}`)) {
+      return `${storeImagePath}/${fileName}`
+    }
     await new Promise((resolve) => setTimeout(resolve, 500))
     const res = await fetch(imageUrl)
     const arrayBuffer = await res.arrayBuffer()
@@ -21,11 +25,5 @@ export async function downloadImage(imageUrl?: string) {
     return `${storeImagePath}/${fileName}`
   } catch (error) {
     return imageUrl
-  }
-}
-
-export function deleteImageFiles() {
-  if (fs.existsSync(storePublicImagePath)) {
-    fs.rmSync(storePublicImagePath, { recursive: true })
   }
 }
