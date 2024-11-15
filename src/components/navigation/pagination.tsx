@@ -37,7 +37,7 @@ export const Pagination = ({ totalPages }: { totalPages: number }) => {
 
   return (
     <_Pagination>
-      <PaginationContent>
+      <PaginationContent className="gap-0">
         <PaginationItem>
           <PaginationPrevious
             href={createPageURL(currentPage - 1)}

@@ -1,5 +1,7 @@
 import { PrefectureEnum } from '@prisma/client'
 
+export type Region = (typeof regionCodes)[number]
+
 export type Prefecture = {
   name: string
   region: (typeof regionCodes)[number]

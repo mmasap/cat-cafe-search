@@ -1,13 +1,14 @@
 import db from '@/lib/db'
-import { getBirthCats as getBirthCatsSql } from '@prisma/client/sql'
+import { getBirthCats } from '@/features/cats/server/db'
 import { CatCard } from '../cat/[region]/components/cat-card'
-import * as Icon from 'lucide-react'
+import { Store as StoreIcon, Cat as CatIcon } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CardLink } from './_components/card-link'
 
+const DISPLAY_BIRTH_CATS_COUNT = 6
+
 export default async function Home() {
-  const birthCats = await getBirthCats()
-  const displayCats = getRandomCats(birthCats)
+  const birthCats = await getRandomBirthCats()
 
   return (
     <>
@@ -17,11 +18,11 @@ export default async function Home() {
         </CardHeader>
         <CardContent className="grid gap-6 grid-cols-2">
           <CardLink href="/shop">
-            <Icon.Store className="size-6" />
+            <StoreIcon className="size-6" />
             <span>店舗検索</span>
           </CardLink>
           <CardLink href="/cat">
-            <Icon.Cat className="size-6" />
+            <CatIcon className="size-6" />
             <span>猫検索</span>
           </CardLink>
         </CardContent>
@@ -31,7 +32,7 @@ export default async function Home() {
           <CardTitle>今月の猫</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-6 grid-cols-2 md:grid-cols-3">
-          {displayCats.map((cat) => (
+          {birthCats.map((cat) => (
             <CatCard key={cat.id} cat={cat} />
           ))}
         </CardContent>
@@ -40,23 +41,12 @@ export default async function Home() {
   )
 }
 
-async function getBirthCats() {
-  const cats = await db.$queryRawTyped(getBirthCatsSql())
-  return Promise.all(
-    cats.map(async (cat) => {
-      return {
-        ...cat,
-        Shop: await db.shop.findUniqueOrThrow({ where: { id: cat.shopId } }),
-      }
-    }),
-  )
-}
-
-function getRandomCats(cats: Awaited<ReturnType<typeof getBirthCats>>, num = 6) {
-  if (cats.length <= num) return cats
+async function getRandomBirthCats() {
+  const birthCats = await getBirthCats()
+  if (birthCats.length <= DISPLAY_BIRTH_CATS_COUNT) return birthCats
   const showCats = []
-  for (let i = 0; i < num; i++) {
-    showCats.push(...cats.splice(Math.floor(Math.random() * cats.length), 1))
+  for (let i = 0; i < DISPLAY_BIRTH_CATS_COUNT; i++) {
+    showCats.push(...birthCats.splice(Math.floor(Math.random() * birthCats.length), 1))
   }
   return showCats
 }

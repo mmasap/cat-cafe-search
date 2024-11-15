@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { CAT_BREED_LIST } from '@/data/cat-breed'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 type CatCardProps = {
   cat: Cat & {
@@ -25,22 +26,16 @@ type CatCardProps = {
 export const CatCard = ({ cat }: CatCardProps) => {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Card>
           <div className="relative h-40">
             {cat.image && (
-              <Image
-                src={cat.image}
-                alt={cat.name}
-                fill
-                sizes="auto"
-                className="rounded-t-lg object-cover"
-              />
+              <Image src={cat.image} alt={cat.name} fill className="rounded-t-lg object-cover" />
             )}
           </div>
-          <CardContent className="p-2">
+          <CardContent className="px-1 sm:px-2 py-2 text-center">
             <p>{cat.name}</p>
-            <p className="text-sm">{getCatBreedName(cat)}</p>
+            <p className="text-xs sm:text-sm">{getCatBreedName(cat)}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
@@ -52,10 +47,10 @@ export const CatCard = ({ cat }: CatCardProps) => {
 const CatDialogContent = ({ cat }: CatCardProps) => {
   return (
     <DialogContent className="w-11/12" showClose={false}>
-      <DialogHeader className="hidden">
-        <DialogTitle>詳細情報</DialogTitle>
-        <DialogDescription>猫の詳細情報を表示します</DialogDescription>
-      </DialogHeader>
+      <VisuallyHidden>
+        <DialogTitle>詳細</DialogTitle>
+        <DialogDescription>詳細</DialogDescription>
+      </VisuallyHidden>
       {cat.image && (
         <Image
           src={cat.image}

@@ -21,6 +21,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { prefectureData, regions } from '@/data/prefecture'
 import { type CatFilterFormSchema, useCatFilterForm } from '../hooks/use-cat-filter'
@@ -33,12 +34,14 @@ export const CatFilter = () => {
         <DialogTrigger asChild className="md:hidden">
           <Button>フィルタ</Button>
         </DialogTrigger>
-        <DialogContent className="w-80">
+        <DialogContent className="w-11/12 h-5/6">
           <DialogHeader>
             <DialogTitle>検索条件</DialogTitle>
             <DialogDescription className="hidden">Filter</DialogDescription>
           </DialogHeader>
-          <CatFilterForm form={form} />
+          <ScrollArea>
+            <CatFilterForm className="px-4" form={form} />
+          </ScrollArea>
         </DialogContent>
       </Dialog>
       <CatFilterForm className="hidden md:block" form={form} />
