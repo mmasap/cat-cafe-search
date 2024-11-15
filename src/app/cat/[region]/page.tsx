@@ -71,7 +71,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           <div className="col-span-12 md:col-span-8 lg:col-span-9 space-y-4">
             {filteredCats.length === 0 && <NoCat />}
             {filteredCats.length > 0 && (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
                 {filteredCats
                   .splice((catFilter.page - 1) * CAT_TAKE_NUM, CAT_TAKE_NUM)
                   .map((cat) => (

@@ -26,16 +26,16 @@ type CatCardProps = {
 export const CatCard = ({ cat }: CatCardProps) => {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Card>
           <div className="relative h-40">
             {cat.image && (
               <Image src={cat.image} alt={cat.name} fill className="rounded-t-lg object-cover" />
             )}
           </div>
-          <CardContent className="p-2">
+          <CardContent className="px-1 sm:px-2 py-2 text-center">
             <p>{cat.name}</p>
-            <p className="text-sm">{getCatBreedName(cat)}</p>
+            <p className="text-xs sm:text-sm">{getCatBreedName(cat)}</p>
           </CardContent>
         </Card>
       </DialogTrigger>
