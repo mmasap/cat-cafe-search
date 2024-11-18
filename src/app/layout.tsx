@@ -1,9 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { CircleUser, Menu, Package2, Search } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -43,7 +39,7 @@ export default function RootLayout({
               </Link>
             </nav>
           </header>
-          <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+          <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-2 bg-muted/40 p-2 md:gap-4 md:p-10">
             {children}
           </main>
         </div>

@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
@@ -46,7 +45,7 @@ export const CatCard = ({ cat }: CatCardProps) => {
 
 const CatDialogContent = ({ cat }: CatCardProps) => {
   return (
-    <DialogContent className="w-11/12" showClose={false}>
+    <DialogContent className="w-11/12 p-4 sm:p-6" showClose={false}>
       <VisuallyHidden>
         <DialogTitle>詳細</DialogTitle>
         <DialogDescription>詳細</DialogDescription>
@@ -87,7 +86,7 @@ const CatDialogContent = ({ cat }: CatCardProps) => {
           <div className="text-xs basis-16">店舗</div>
           <div className="col-span-3">
             <a
-              className="text-[#1d3994] hover:underline"
+              className="text-[#1d3994] hover:underline flex break-words items-center"
               target="_blank"
               rel="noreferrer"
               href={cat.Shop.url}

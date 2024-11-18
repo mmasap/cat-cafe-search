@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { ContentLayout } from '@/components/layout/content-layout'
 import { prefectureData, regionCodes } from '@/data/prefecture'
-import db from '@/lib/db'
 import { ShopCard } from './components/shop-card'
 import { ShopFilter } from './components/shop-filter'
 import { z } from 'zod'
