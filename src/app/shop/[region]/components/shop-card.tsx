@@ -1,13 +1,13 @@
 import type { Shop } from '@prisma/client'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
+import { ExternalLink } from 'lucide-react'
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
@@ -82,14 +82,15 @@ const CafeDialogContent = ({ shop }: { shop: Shop }) => {
           <div>{shop.regularHolidays.length > 0 ? shop.regularHolidays.join(' ') : 'なし'}</div>
         </div>
         <div className="flex items-center">
-          <div className="text-xs basis-20 flex-shrink-0">URL</div>
+          <div className="text-xs basis-20 flex-shrink-0">ホームページ</div>
           <a
-            className="text-[#1d3994] hover:underline"
+            className="text-[#1976d2] flex items-center"
             target="_blank"
             rel="noopener noreferrer"
             href={shop.url}
           >
-            {shop.url}
+            公式サイト
+            <ExternalLink className="size-5" />
           </a>
         </div>
       </div>

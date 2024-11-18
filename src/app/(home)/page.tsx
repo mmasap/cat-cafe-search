@@ -1,4 +1,3 @@
-import db from '@/lib/db'
 import { getBirthCats } from '@/features/cats/server/db'
 import { CatCard } from '../cat/[region]/components/cat-card'
 import { Store as StoreIcon, Cat as CatIcon } from 'lucide-react'
@@ -12,31 +11,23 @@ export default async function Home() {
 
   return (
     <>
-      <Card>
-        <CardHeader>
-          <CardTitle>検索</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-6 grid-cols-2">
-          <CardLink href="/shop">
-            <StoreIcon className="size-6" />
-            <span>店舗検索</span>
-          </CardLink>
-          <CardLink href="/cat">
-            <CatIcon className="size-6" />
-            <span>猫検索</span>
-          </CardLink>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>今月の猫</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-6 grid-cols-2 md:grid-cols-3">
-          {birthCats.map((cat) => (
-            <CatCard key={cat.id} cat={cat} />
-          ))}
-        </CardContent>
-      </Card>
+      <h2 className="text-2xl font-semibold tracking-tight">検索</h2>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+        <CardLink href="/shop">
+          <StoreIcon className="size-6" />
+          <span>店舗検索</span>
+        </CardLink>
+        <CardLink href="/cat">
+          <CatIcon className="size-6" />
+          <span>猫検索</span>
+        </CardLink>
+      </div>
+      <h2 className="text-2xl font-semibold tracking-tight">今月の猫</h2>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+        {birthCats.map((cat) => (
+          <CatCard key={cat.id} cat={cat} />
+        ))}
+      </div>
     </>
   )
 }
